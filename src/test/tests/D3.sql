@@ -1,0 +1,1 @@
+SELECT * from "Diploma" where "Name" ilike '%гидро%';
