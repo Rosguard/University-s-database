@@ -14,16 +14,13 @@ public enum Sex {
         return sex;
     }
 
-    public static Sex findBySex(String sex){
-        for(Sex one: values()){
-            if(one.sex.equals(sex))
+    public static Sex findBySex(String sex) {
+        for (Sex one : values()) {
+            if (one.sex.equals(sex))
                 return one;
         }
         throw new IllegalArgumentException(String.format("Error sex for %s", sex));
     }
 
-    @Override
-    public String toString() {
-        return sex;
-    }
+
 }

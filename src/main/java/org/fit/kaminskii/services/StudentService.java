@@ -56,71 +56,74 @@ public class StudentService {
         return true;
     }
 
-    public List<StudentView> findByGroup(int group){
+    public List<StudentView> findByGroup(int group) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesByStudentGroup_NumberOfGroup(group);
         return mapper4database.toStudentListView(students);
     }
 
-    public List<StudentView> findByCourse(int course){
+    public List<StudentView> findByCourse(int course) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesByStudentGroup_Course(course);
         return mapper4database.toStudentListView(students);
     }
 
-    public List<StudentView> findBySex(Sex sex){
+    public List<StudentView> findBySex(Sex sex) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesBySex(sex);
         return mapper4database.toStudentListView(students);
     }
 
-    public List<StudentView> findByName(String SN, String FN, String TN){
+    public List<StudentView> findByName(String SN, String FN, String TN) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesBySecondNameAndFirstNameAndThirdName(SN, FN, TN);
         return mapper4database.toStudentListView(students);
     }
 
-    public List<StudentView> findByBirthday(Date birthday){
+    public List<StudentView> findByBirthday(Date birthday) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesByBirthday(birthday);
         return mapper4database.toStudentListView(students);
     }
 
-    public List<StudentView> findByAge(int age){
+    public List<StudentView> findByAge(int age) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesByAge(age);
         return mapper4database.toStudentListView(students);
     }
 
-    public List<StudentView> findByChildren(int numberOfChildren){
+    public List<StudentView> findByChildren(int numberOfChildren) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesByNumberOfChildren(numberOfChildren);
         return mapper4database.toStudentListView(students);
     }
 
-    public List<StudentView> findByChildrenIsNotNull(){
-        List<StudentEntity> students =
-                studentRepo.findStudentEntitiesByNumberOfChildrenIsNotNull();
-        return mapper4database.toStudentListView(students);
-    }
 
-    public List<StudentView> findByGrants(BigDecimal grants){
+    public List<StudentView> findByGrants(BigDecimal grants) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesByGrants(grants);
         return mapper4database.toStudentListView(students);
     }
-    public List<StudentView> findByFaculty(String faculty){
+
+    public List<StudentView> findByFaculty(String faculty) {
         List<StudentEntity> students =
                 studentRepo.findStudentEntitiesByStudentGroup_Faculty(faculty);
         return mapper4database.toStudentListView(students);
     }
 
-
-
-
-    public List<StudentView> groupByAge(){
-        List<StudentEntity> students =
-                studentRepo.groupByAge();
-        return mapper4database.toStudentListView(students);
+    public List<StudentView> findStudentByGroupNumberAndSubjectAndMark(int groupNumber, String subject, int mark) {
+        List<StudentEntity> departments = studentRepo.findStudentByGroupNumberAndSubjectAndMark(groupNumber, subject, mark);
+        return mapper4database.toStudentListView(departments);
     }
+
+    public List<StudentView> findStudentByGroupAndTeacherCodeAndMarkAndSubjectAndSemester(int groupNumber, int teacherCode, String subject, int mark) {
+        List<StudentEntity> departments = studentRepo.findStudentByGroupAndTeacherCodeAndMarkAndSubjectAndSemester(groupNumber, teacherCode, subject, mark);
+        return mapper4database.toStudentListView(departments);
+    }
+
+    public List<StudentView> findStudentByGroupAndTeacherNameAndMarkAndSubjectAndSemester(int groupNumber, String firstName, String secondName, String thirdName, String subject, int mark) {
+        List<StudentEntity> departments = studentRepo.findStudentByGroupAndTeacherNameAndMarkAndSubjectAndSemester(groupNumber, firstName, secondName, thirdName, subject, mark);
+        return mapper4database.toStudentListView(departments);
+    }
+
 }

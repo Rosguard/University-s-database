@@ -37,9 +37,10 @@ public class TeacherView {
     private String doctoral;
     private String candidate;
 
-    public String getSex(){
+    public String getSex() {
         return sex.getSex();
     }
+
     public String getCategory() {
         return category.getCategory();
     }

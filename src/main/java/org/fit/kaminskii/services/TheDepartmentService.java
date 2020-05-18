@@ -1,12 +1,7 @@
 package org.fit.kaminskii.services;
 
-import org.fit.kaminskii.domain.CandidateEntity;
-import org.fit.kaminskii.domain.TheDepartmentEntity;
-import org.fit.kaminskii.domain.TheDepartmentEntity;
 import org.fit.kaminskii.domain.TheDepartmentEntity;
 import org.fit.kaminskii.mapper.Mapper4database;
-import org.fit.kaminskii.views.CandidateView;
-import org.fit.kaminskii.views.TheDepartmentView;
 import org.fit.kaminskii.views.TheDepartmentView;
 import org.fit.kaminskii.repositories.TheDepartmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -40,8 +34,18 @@ public class TheDepartmentService {
 
     }
 
-    public List<TheDepartmentView> findTheDepartmentByGroupNumber(int gn){
-        List <TheDepartmentEntity> departments = thedepartmentRepo.findTheDepartmentByGroupNumber(gn);
+    public List<TheDepartmentView> findTheDepartmentByGroupNumber(int groupNumber) {
+        List<TheDepartmentEntity> departments = thedepartmentRepo.findTheDepartmentByGroupNumber(groupNumber);
+        return mapper4database.toTheDepartmentListView(departments);
+    }
+
+    public List<TheDepartmentView> findTheDepartmentByCourse(int course) {
+        List<TheDepartmentEntity> departments = thedepartmentRepo.findTheDepartmentByCourse(course);
+        return mapper4database.toTheDepartmentListView(departments);
+    }
+
+    public List<TheDepartmentView> findTheDepartmentBySemester(int semester) {
+        List<TheDepartmentEntity> departments = thedepartmentRepo.findTheDepartmentBySemester(semester);
         return mapper4database.toTheDepartmentListView(departments);
     }
 

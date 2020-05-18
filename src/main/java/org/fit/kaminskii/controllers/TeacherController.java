@@ -6,7 +6,6 @@ import org.fit.kaminskii.model.Sex;
 import org.fit.kaminskii.model.TeacherCategory;
 import org.fit.kaminskii.services.TeacherService;
 import org.fit.kaminskii.views.TeacherView;
-import org.fit.kaminskii.views.TeacherView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity<TeacherView> teacherByName(int id) {
         TeacherView answer = teacherService.findById(id);
-        if(answer == null){
+        if (answer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(answer);
@@ -51,17 +50,18 @@ public class TeacherController {
 
     @PostMapping("/createTeacher")
     @ApiOperation("Create teacher")
-    public ResponseEntity<String> createTeacher(@Valid @RequestBody TeacherView teacher){
+    public ResponseEntity<String> createTeacher(@Valid @RequestBody TeacherView teacher) {
         teacherService.create(teacher);
         return ResponseEntity.status(HttpStatus.CREATED).body("TeacherView added");
     }
 
     @DeleteMapping("/deleteTeacherById")
     @ApiOperation("Delete teacher")
-    public ResponseEntity<String> deleteTeacherById(int id){
+    public ResponseEntity<String> deleteTeacherById(int id) {
         teacherService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("TeacherView deleted");
     }
+
     @GetMapping("/teachersBySex")
     @ApiOperation("Show teachers by sex")
     @ResponseBody
@@ -69,6 +69,7 @@ public class TeacherController {
         List<TeacherView> teachers = teacherService.findBySex(sex);
         return ResponseEntity.status(HttpStatus.OK).body(teachers);
     }
+
     @GetMapping("/teachersByCategory")
     @ApiOperation("Show teachers by category")
     @ResponseBody
@@ -100,6 +101,7 @@ public class TeacherController {
         List<TeacherView> teachers = teacherService.findByAge(age);
         return ResponseEntity.status(HttpStatus.OK).body(teachers);
     }
+
     @GetMapping("/teachersByChildren")
     @ApiOperation("Show teachers by children")
     @ResponseBody
@@ -107,13 +109,8 @@ public class TeacherController {
         List<TeacherView> teachers = teacherService.findByChildren(numberOfChildren);
         return ResponseEntity.status(HttpStatus.OK).body(teachers);
     }
-    @GetMapping("/teachersWithChildren")
-    @ApiOperation("Show teachers with children")
-    @ResponseBody
-    public ResponseEntity<List<TeacherView>> showTeachersByChildrenIsNotNull() {
-        List<TeacherView> teachers = teacherService.findByChildrenIsNotNull();
-        return ResponseEntity.status(HttpStatus.OK).body(teachers);
-    }
+
+
     @GetMapping("/teachersBySalary")
     @ApiOperation("Show teachers by salary")
     @ResponseBody
@@ -121,5 +118,44 @@ public class TeacherController {
         List<TeacherView> teachers = teacherService.findBySalary(salary);
         return ResponseEntity.status(HttpStatus.OK).body(teachers);
     }
-    
+
+    @GetMapping("/TeacherByLessonNameAndGroupNumber")
+    @ApiOperation("Show teachers by lesson name and group number")
+    @ResponseBody
+    public ResponseEntity<List<TeacherView>> findTeacherByLessonNameAndGroupNumber(String lessonName, int groupNumber) {
+        List<TeacherView> departments = teacherService.findTeacherByLessonNameAndGroupNumber(lessonName, groupNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/TeacherCourseAndFaculty")
+    @ApiOperation("Show teachers by the course and faculty")
+    @ResponseBody
+    public ResponseEntity<List<TeacherView>> showTeacherByCourseAndFaculty(int course, String faculty) {
+        List<TeacherView> departments = teacherService.findTeacherByCourseAndFaculty(course, faculty);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/TeacherByLessonTypeAndGroupNumber")
+    @ApiOperation("Show teachers by lesson type and group number")
+    @ResponseBody
+    public ResponseEntity<List<TeacherView>> findTeacherByLessonTypeAndGroupNumber(String lessonType, int groupNumber) {
+        List<TeacherView> departments = teacherService.findTeacherByLessonTypeAndGroupNumber(lessonType, groupNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/TeacherCourseAndFacultyAndSemester")
+    @ApiOperation("Show teachers by the course and faculty and semester")
+    @ResponseBody
+    public ResponseEntity<List<TeacherView>> showTeacherByCourseAndFacultyAndSemester(int course, String faculty, int semester) {
+        List<TeacherView> departments = teacherService.findTeacherByCourseAndFacultyAndSemester(course, faculty, semester);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/TeacherByGroupAndSubjectAndSemester")
+    @ApiOperation("Show teachers by the group and subject and semester")
+    @ResponseBody
+    public ResponseEntity<List<TeacherView>> findTeacherByGroupAndSubjectAndSemester(int groupNumber, String subject, int semester) {
+        List<TeacherView> departments = teacherService.findTeacherByGroupAndSubjectAndSemester(groupNumber, subject, semester);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
 }

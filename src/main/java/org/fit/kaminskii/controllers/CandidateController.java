@@ -52,14 +52,14 @@ public class CandidateController {
 
     @PostMapping("/createCandidate")
     @ApiOperation("Create candidate")
-    public ResponseEntity<String> createCandidate(@Valid @RequestBody CandidateView candidate){
+    public ResponseEntity<String> createCandidate(@Valid @RequestBody CandidateView candidate) {
         candidateService.create(candidate);
         return ResponseEntity.status(HttpStatus.CREATED).body("CandidateView added");
     }
 
     @DeleteMapping("/deleteCandidateById")
     @ApiOperation("Delete candidate")
-    public ResponseEntity<String> deleteCandidateById(int id){
+    public ResponseEntity<String> deleteCandidateById(int id) {
         candidateService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("CandidateView deleted");
     }

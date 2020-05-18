@@ -2,12 +2,14 @@ package org.fit.kaminskii.views;
 
 import lombok.Data;
 import org.fit.kaminskii.domain.GroupClassesEntity;
+import org.fit.kaminskii.model.LessonType;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Data
 public class GroupClassesView {
+    @NotNull
     private int group;
     @NotNull
     private String theDepartment;
@@ -25,4 +27,7 @@ public class GroupClassesView {
     private Integer volume;
     @NotNull
     private String name;
+//    public String getLessonType(){
+//        return lessonType.getLessonType();
+//    }
 }

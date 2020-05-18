@@ -1,0 +1,4 @@
+INSERT INTO public.diploma (student_code, diploma_name, theme, the_department, scientific_director_code) VALUES (1, 'Согласование когнитивной деятельности нескольких человек', 'Психология', 'Общей информатики', 2);
+INSERT INTO public.diploma (student_code, diploma_name, theme, the_department, scientific_director_code) VALUES (2, 'Регулярность на метрических пространствах', 'Математика', 'Компьютерных технологий', 8);
+INSERT INTO public.diploma (student_code, diploma_name, theme, the_department, scientific_director_code) VALUES (3, 'Гамильтонова геометрия уравнений ассоциативности', 'Математика', 'Теории функций', 4);
+INSERT INTO public.diploma (student_code, diploma_name, theme, the_department, scientific_director_code) VALUES (8, 'Когомологии положительно градуированных алгебр Ли и их приложения', 'Математика', 'Высшей математики', 1);

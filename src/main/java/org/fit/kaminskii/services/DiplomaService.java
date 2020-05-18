@@ -18,22 +18,23 @@ public class DiplomaService {
     @Autowired
     private Mapper4database mapper4database;
 
-    public List<DiplomaView> showAll(){
+    public List<DiplomaView> showAll() {
         Iterable<DiplomaEntity> diplomalist = diplomaRepo.findAll();
         List<DiplomaView> diploma = new ArrayList<>();
-        for(DiplomaEntity diplomaEntity:diplomalist){
+        for (DiplomaEntity diplomaEntity : diplomalist) {
             diploma.add(mapper4database.toDiplomaView(diplomaEntity));
         }
         return diploma;
     }
-    public void create(DiplomaView diploma){
+
+    public void create(DiplomaView diploma) {
         DiplomaEntity diplomaEntity = new DiplomaEntity();
         mapper4database.toDiplomaEntity(diploma, diplomaEntity);
         diplomaRepo.save(diplomaEntity);
-        
+
     }
 
-    public void deleteById(int id){
+    public void deleteById(int id) {
         diplomaRepo.deleteById(id);
     }
 }

@@ -1,14 +1,13 @@
 package org.fit.kaminskii.repositories;
 
 import org.fit.kaminskii.domain.DoctoralEntity;
-import org.fit.kaminskii.domain.DoctoralEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface DoctoralRepo extends CrudRepository<DoctoralEntity,Integer> {
+public interface DoctoralRepo extends CrudRepository<DoctoralEntity, Integer> {
     @Override
     List<DoctoralEntity> findAll();
 

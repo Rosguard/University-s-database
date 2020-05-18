@@ -1,0 +1,14 @@
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Оптимизация численных методов методами машинного обучения', '2004-09-10', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Планирование экспериментов для дискриминации регрессионных моделей', '2018-05-01', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Структурные аппроксимации временных рядов', '2000-12-27', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Вычислительные тензорные методы и их применения', '1998-02-25', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Вычислительные алгоритмы в геометрии чисел', '2017-10-19', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('О решении некоторых задач динамики океана', '2012-08-11', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('О всплесковых разложениях пространств сплайнов', '2005-09-28', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Нелинейные аппроксимации матриц', '2015-05-02', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Спектрально-согласованные сетки для моделирования волновых процессов', '1994-12-03', 'Вычислительная математика');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Аналитические и геометрические свойства различных классов гармонических отображений круга', '1988-02-06', 'Математический анализ');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Задачи непрерывной и полиномиальной комбинаторики', '2018-10-28', 'Математический анализ');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Измеримые многочлены на бесконечномерных пространствах', '2010-08-07', 'Математический анализ');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Спектральный анализ разностных операторов', '2019-07-07', 'Математический анализ');
+INSERT INTO public.candidate (candidate_name, date, theme) VALUES ('Разветвлённые накрытия римановых поверхностей и графов', '2012-04-01', 'Математический анализ');

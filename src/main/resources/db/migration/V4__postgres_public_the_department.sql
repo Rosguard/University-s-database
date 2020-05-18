@@ -1,0 +1,10 @@
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Систем информатики', 'ФИТ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Общей информатики', 'ФИТ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Компьютерных систем', 'ФИТ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Дискретного анализа и исследования операций', 'ФИТ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Компьютерных технологий', 'ФИТ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Параллельных вычислений', 'ФИТ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Математики', 'ФИТ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Теории функций', 'ММФ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Гидродинамики', 'ММФ');
+INSERT INTO public.the_department (the_department_name, faculty) VALUES ('Высшей математики', 'ММФ');

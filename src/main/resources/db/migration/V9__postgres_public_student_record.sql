@@ -1,0 +1,7 @@
+INSERT INTO public.student_record (subject, student_code, type_of_exam, mark, date_of_exam, teacher_code) VALUES ('Психология', 1, 'Зачет', 5, '2020-05-31', 2);
+INSERT INTO public.student_record (subject, student_code, type_of_exam, mark, date_of_exam, teacher_code) VALUES ('Введение в наполнение баз данных', 2, 'Экзамен', 3, '2019-06-22', 4);
+INSERT INTO public.student_record (subject, student_code, type_of_exam, mark, date_of_exam, teacher_code) VALUES ('Введение в наполнение баз данных', 3, 'Экзамен', 4, '2019-06-22', 4);
+INSERT INTO public.student_record (subject, student_code, type_of_exam, mark, date_of_exam, teacher_code) VALUES ('Введение в наполнение баз данных', 4, 'Экзамен', 5, '2019-06-22', 4);
+INSERT INTO public.student_record (subject, student_code, type_of_exam, mark, date_of_exam, teacher_code) VALUES ('Высшая математика', 4, 'Экзамен', 5, '2019-01-20', 1);
+INSERT INTO public.student_record (subject, student_code, type_of_exam, mark, date_of_exam, teacher_code) VALUES ('Высшая математика', 3, 'Экзамен', 4, '2019-01-20', 1);
+INSERT INTO public.student_record (subject, student_code, type_of_exam, mark, date_of_exam, teacher_code) VALUES ('Дискретная математика', 5, 'Зачет', 3, '2019-01-18', 3);

@@ -1,6 +1,9 @@
 package org.fit.kaminskii.domain;
 
 import lombok.Data;
+import org.fit.kaminskii.converters.CategoryConverter;
+import org.fit.kaminskii.converters.LessonTypeConverter;
+import org.fit.kaminskii.model.LessonType;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -20,6 +23,7 @@ public class GroupClassesEntity {
     private Date finishDate;
     @Id
     @Column(name = "lesson_type", nullable = false, length = -1)
+    //@Convert(converter = LessonTypeConverter.class)
     private String lessonType;
     @Basic
     @Column(name = "semester", nullable = true)

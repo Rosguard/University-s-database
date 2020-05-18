@@ -32,7 +32,7 @@ public class StudentView {
     @Min(0)
     private BigDecimal grants;
 
-    public String getSex(){
+    public String getSex() {
         return sex.getSex();
     }
 

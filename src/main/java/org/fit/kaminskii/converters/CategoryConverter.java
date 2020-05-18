@@ -1,11 +1,12 @@
 package org.fit.kaminskii.converters;
 
 import org.fit.kaminskii.model.TeacherCategory;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class CategoryConverter implements AttributeConverter<TeacherCategory, String>  {
+public class CategoryConverter implements AttributeConverter<TeacherCategory, String> {
 
     @Override
     public String convertToDatabaseColumn(TeacherCategory value) {

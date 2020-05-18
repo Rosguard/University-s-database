@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.fit.kaminskii.services.DoctoralService;
 import org.fit.kaminskii.views.DoctoralView;
-import org.fit.kaminskii.views.DoctoralView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,14 +52,14 @@ public class DoctoralController {
 
     @PostMapping("/createDoctoral")
     @ApiOperation("Create doctoral")
-    public ResponseEntity<String> createDoctoral(@Valid @RequestBody DoctoralView doctoral){
+    public ResponseEntity<String> createDoctoral(@Valid @RequestBody DoctoralView doctoral) {
         doctoralService.create(doctoral);
         return ResponseEntity.status(HttpStatus.CREATED).body("DoctoralView added");
     }
 
     @DeleteMapping("/deleteDoctoralById")
     @ApiOperation("Delete doctoral")
-    public ResponseEntity<String> deleteDoctoralById(int id){
+    public ResponseEntity<String> deleteDoctoralById(int id) {
         doctoralService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("DoctoralView deleted");
     }

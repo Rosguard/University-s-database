@@ -41,7 +41,7 @@ public class StudentController {
     @ResponseBody
     public ResponseEntity<StudentView> studentByName(int id) {
         StudentView answer = studentService.findById(id);
-        if(answer == null){
+        if (answer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(answer);
@@ -49,17 +49,9 @@ public class StudentController {
 
     @PostMapping("/createStudent")
     @ApiOperation("Create student")
-    public ResponseEntity<String> createStudent(@Valid @RequestBody StudentView student){
+    public ResponseEntity<String> createStudent(@Valid @RequestBody StudentView student) {
         studentService.create(student);
         return ResponseEntity.status(HttpStatus.CREATED).body("StudentView added");
-    }
-
-    @GetMapping("/groupByAge")
-    @ApiOperation("Show students group by age")
-    @ResponseBody
-    public ResponseEntity<List<StudentView>> showStudentsGroupByAge() {
-        List<StudentView> students = studentService.groupByAge();
-        return ResponseEntity.status(HttpStatus.OK).body(students);
     }
 
 
@@ -110,6 +102,7 @@ public class StudentController {
         List<StudentView> students = studentService.findByAge(age);
         return ResponseEntity.status(HttpStatus.OK).body(students);
     }
+
     @GetMapping("/studentsByChildren")
     @ApiOperation("Show students by children")
     @ResponseBody
@@ -117,13 +110,7 @@ public class StudentController {
         List<StudentView> students = studentService.findByChildren(numberOfChildren);
         return ResponseEntity.status(HttpStatus.OK).body(students);
     }
-    @GetMapping("/studentsWithChildren")
-    @ApiOperation("Show students with children")
-    @ResponseBody
-    public ResponseEntity<List<StudentView>> showStudentsByChildrenIsNotNull() {
-        List<StudentView> students = studentService.findByChildrenIsNotNull();
-        return ResponseEntity.status(HttpStatus.OK).body(students);
-    }
+
     @GetMapping("/studentsByGrants")
     @ApiOperation("Show students by grants")
     @ResponseBody
@@ -141,16 +128,34 @@ public class StudentController {
     }
 
 
-
-
-
-
-
-
     @DeleteMapping("/deleteStudentById")
     @ApiOperation("Delete student")
-    public ResponseEntity<String> deleteStudentById(int id){
+    public ResponseEntity<String> deleteStudentById(int id) {
         studentService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("StudentView deleted");
+    }
+
+    @GetMapping("/StudentByGroupNumberAndSubjectAndMark")
+    @ApiOperation("Show students by the group number and subject and mark")
+    @ResponseBody
+    public ResponseEntity<List<StudentView>> findStudentByGroupNumberAndSubjectAndMark(int groupNumber, String subject, int mark) {
+        List<StudentView> departments = studentService.findStudentByGroupNumberAndSubjectAndMark(groupNumber, subject, mark);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/StudentByGroupAndTeacherAndMarkAndSubjectAndSemester")
+    @ApiOperation("Show students by the group number and teacher code and subject and mark")
+    @ResponseBody
+    public ResponseEntity<List<StudentView>> findStudentByGroupAndTeacherCodeAndMarkAndSubjectAndSemester(int groupNumber, int teacherCode, String subject, int mark) {
+        List<StudentView> departments = studentService.findStudentByGroupAndTeacherCodeAndMarkAndSubjectAndSemester(groupNumber, teacherCode, subject, mark);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/StudentByGroupAndTeacherNameAndMarkAndSubjectAndSemester")
+    @ApiOperation("Show students by the group number and teacher name and subject and mark")
+    @ResponseBody
+    public ResponseEntity<List<StudentView>> findStudentByGroupAndTeacherNameAndMarkAndSubjectAndSemester(int groupNumber, String firstName, String secondName, String thirdName, String subject, int mark) {
+        List<StudentView> departments = studentService.findStudentByGroupAndTeacherNameAndMarkAndSubjectAndSemester(groupNumber, firstName, secondName, thirdName, subject, mark);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
     }
 }

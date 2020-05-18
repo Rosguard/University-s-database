@@ -15,25 +15,26 @@ import java.util.List;
 @Service
 public class GroupClassesService {
     @Autowired
-    private GroupClassesRepo groupclassesRepo;
+    private GroupClassesRepo groupClassesRepo;
     @Autowired
     private Mapper4database mapper4database;
 
-    public List<GroupClassesView> showAll(){
-        Iterable<GroupClassesEntity> groupclasseslist = groupclassesRepo.findAll();
-        List<GroupClassesView> groupclasses = new ArrayList<>();
-        for(GroupClassesEntity groupclassesEntity:groupclasseslist){
-            groupclasses.add(mapper4database.toGroupClassesView(groupclassesEntity));
+    public List<GroupClassesView> showAll() {
+        Iterable<GroupClassesEntity> groupClassesList = groupClassesRepo.findAll();
+        List<GroupClassesView> groupClasses = new ArrayList<>();
+        for (GroupClassesEntity groupclassesEntity : groupClassesList) {
+            groupClasses.add(mapper4database.toGroupClassesView(groupclassesEntity));
         }
-        return groupclasses;
-    }
-    public void createGroupClasses(GroupClassesView groupclasses){
-        GroupClassesEntity groupclassesEntity = new GroupClassesEntity();
-        mapper4database.toGroupClassesEntity(groupclasses, groupclassesEntity);
-        groupclassesRepo.save(groupclassesEntity);
+        return groupClasses;
     }
 
-    public void deleteGroupClassesById(int id){
-        groupclassesRepo.deleteById(id);
+    public void create(GroupClassesView groupClasses) {
+        GroupClassesEntity groupclassesEntity = new GroupClassesEntity();
+        mapper4database.toGroupClassesEntity(groupClasses, groupclassesEntity);
+        groupClassesRepo.save(groupclassesEntity);
+    }
+
+    public void deleteById(int id) {
+        groupClassesRepo.deleteById(id);
     }
 }

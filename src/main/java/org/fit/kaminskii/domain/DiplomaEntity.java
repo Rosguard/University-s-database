@@ -3,6 +3,7 @@ package org.fit.kaminskii.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+
 @Data
 @Entity
 @Table(name = "diploma", schema = "public", catalog = "postgres")

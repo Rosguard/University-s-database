@@ -1,0 +1,4 @@
+INSERT INTO public.doctoral (doctoral_name, date, theme) VALUES ('Об уплотняющих возмущениях сюръективных операторов', '2015-07-17', 'Математический анализ');
+INSERT INTO public.doctoral (doctoral_name, date, theme) VALUES ('О классах возмущений спектрально неустойчивых операторов', '2017-12-02', 'Математический анализ');
+INSERT INTO public.doctoral (doctoral_name, date, theme) VALUES ('Спектральная теория операторов', '2006-01-26', 'Математический анализ');
+INSERT INTO public.doctoral (doctoral_name, date, theme) VALUES ('Обобщенное функциональное исчисление в векторных решетках', '1999-05-05', 'Математический анализ');
