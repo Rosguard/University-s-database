@@ -1,9 +1,3 @@
-create schema public;
-
-comment on schema public is 'standard public schema';
-
-alter schema public owner to postgres;
-
 create sequence hibernate_sequence;
 
 alter sequence hibernate_sequence owner to postgres;
