@@ -36,9 +36,9 @@ public class StudentController {
     @ResponseBody
     public StudentView studentByName(@PathVariable int id) {
         StudentView answer = studentService.findById(id);
-        if (answer == null) {
-            return null;
-        }
+//        if (answer == null) {
+//            return null;
+//        }
         return answer;
     }
 
