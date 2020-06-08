@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -100,5 +102,9 @@ public abstract class Mapper4database {
     public abstract TheDepartmentView toTheDepartmentView(TheDepartmentEntity thedepartmentEntity);
 
     public abstract List<TheDepartmentView> toTheDepartmentListView(Iterable<TheDepartmentEntity> theDepartmentEntity);
+
+    public Page<StudentView> toStudentPage(Page<StudentEntity> studentEntity){
+        return new PageImpl<>(toStudentListView(studentEntity.toList()), studentEntity.getPageable(), studentEntity.getTotalElements());
+    }
 
 }

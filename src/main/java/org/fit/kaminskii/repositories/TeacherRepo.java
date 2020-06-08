@@ -31,23 +31,24 @@ public interface TeacherRepo extends CrudRepository<TeacherEntity, Integer> {
     List<TeacherEntity> findTeacherEntitiesBySalary(BigDecimal salary);
 
     @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
-            "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group and gc.name = :lessonName")
+            "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group and gc.groupClassesEntityPK.name = :lessonName")
     List<TeacherEntity> findTeacherByLessonNameAndGroupNumber(@Param("lessonName") String lessonName, @Param("group") int group);
 
     @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
-            "join  GroupEntity g on g = gc.groupNumber join FacultyEntity f on f = g.faculty where f.name = :faculty and g.course=:course")
+            "join  GroupEntity g on g = gc.groupNumber join FacultyEntity f on f = g.facultyByFaculty where f.name = :faculty and g.course=:course")
     List<TeacherEntity> findTeacherByCourseAndFaculty(@Param("course") int course, @Param("faculty") String faculty);
 
     @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
-            "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group and gc.lessonType = :lessonType")
+            "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group and gc.groupClassesEntityPK.lessonType = :lessonType")
     List<TeacherEntity> findTeacherByLessonTypeAndGroupNumber(@Param("lessonType") String lessonType, @Param("group") int group);
 
     @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
-            "join  GroupEntity g on g = gc.groupNumber join FacultyEntity f on f = g.faculty where f.name = :faculty and g.course=:course and gc.semester=:semester")
+            "join  GroupEntity g on g = gc.groupNumber join FacultyEntity f on f = g.facultyByFaculty where f.name = :faculty and g.course=:course and gc.semester=:semester")
     List<TeacherEntity> findTeacherByCourseAndFacultyAndSemester(@Param("course") int course, @Param("faculty") String faculty, @Param("semester") int semester);
 
-    @Query("select t from TeacherEntity t join StudentRecordEntity sr on sr.teacherCode = t.teacherCode " +
-            "join StudentEntity s on s.studentCode=sr.studentCode join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.name = sr.subject where g.numberOfGroup=:groupNumber and sr.subject=:subject and gc.semester=:semester")
+    @Query("select t from TeacherEntity t join StudentRecordEntity sr on sr.teacherByTeacherCode = t " +
+            "join StudentEntity s on s=sr.studentByStudentCode join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.groupClassesEntityPK.name = sr.studentRecordEntityPK.subject " +
+            "where g.numberOfGroup=:groupNumber and sr.studentRecordEntityPK.subject=:subject and gc.semester=:semester")
     List<TeacherEntity> findTeacherByGroupAndSubjectAndSemester(@Param("groupNumber") int groupNumber, @Param("subject") String subject, @Param("semester") int semester);
 
 

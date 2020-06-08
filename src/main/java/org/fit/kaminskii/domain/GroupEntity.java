@@ -1,6 +1,7 @@
 package org.fit.kaminskii.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,14 +16,13 @@ public class GroupEntity {
     @Basic
     @Column(name = "course", nullable = true)
     private Integer course;
-    @Basic
-    @Column(name = "faculty", nullable = true, length = -1)
-    private String faculty;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty", referencedColumnName = "faculty_name", insertable = false, updatable = false)
     private FacultyEntity facultyByFaculty;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupNumber")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "groupNumber")
     private Collection<GroupClassesEntity> groupClassesByNumberOfGroup;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentGroup")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "studentGroup")
     private Collection<StudentEntity> studentsByNumberOfGroup;
 }

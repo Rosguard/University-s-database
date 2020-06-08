@@ -42,7 +42,7 @@ public class TheDepartmentController {
 
     @DeleteMapping("/deleteTheDepartmentById")
     @ApiOperation("Delete thedepartment")
-    public ResponseEntity<String> deleteByName(int name) {
+    public ResponseEntity<String> deleteByName(String name) {
         thedepartmentService.deleteByName(name);
         return ResponseEntity.status(HttpStatus.OK).body("TheDepartmentView deleted");
     }

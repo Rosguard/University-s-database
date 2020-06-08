@@ -59,7 +59,7 @@ public class DoctoralController {
 
     @DeleteMapping("/deleteDoctoralById")
     @ApiOperation("Delete doctoral")
-    public ResponseEntity<String> deleteDoctoralById(int id) {
+    public ResponseEntity<String> deleteDoctoralById(String id) {
         doctoralService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("DoctoralView deleted");
     }

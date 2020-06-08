@@ -1,8 +1,9 @@
 package org.fit.kaminskii.domain;
 
 import lombok.Data;
-import org.fit.kaminskii.converters.CategoryConverter;
-import org.fit.kaminskii.converters.SexConverter;
+import lombok.ToString;
+import org.fit.kaminskii.db_converters.CategoryConverter;
+import org.fit.kaminskii.db_converters.SexConverter;
 import org.fit.kaminskii.model.Sex;
 import org.fit.kaminskii.model.TeacherCategory;
 
@@ -48,22 +49,25 @@ public class TeacherEntity {
     @Basic
     @Column(name = "salary", nullable = true, length = -1)
     private BigDecimal salary;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherByScientificDirectorCode")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "teacherByScientificDirectorCode")
     private Collection<DiplomaEntity> diplomasByTeacherCode;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherCode")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "teacherCode")
     private Collection<GroupClassesEntity> groupClassesByTeacherCode;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherByTeacherCode")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "teacherByTeacherCode")
     private Collection<StudentRecordEntity> studentRecordsByTeacherCode;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Faculty", referencedColumnName = "faculty_name", insertable = false, updatable = false)
     private FacultyEntity faculty;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "the_department", referencedColumnName = "the_department_name", insertable = false, updatable = false)
     private TheDepartmentEntity theDepartment;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Doctoral", referencedColumnName = "doctoral_name", insertable = false, updatable = false)
     private DoctoralEntity doctoral;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Candidate", referencedColumnName = "candidate_name", insertable = false, updatable = false)
     private CandidateEntity candidate;
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface TheDepartmentRepo extends CrudRepository<TheDepartmentEntity, Integer> {
+public interface TheDepartmentRepo extends CrudRepository<TheDepartmentEntity, String> {
     @Override
     List<TheDepartmentEntity> findAll();
 

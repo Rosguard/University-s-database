@@ -43,7 +43,7 @@ public class DoctoralService {
         return mapper4database.toDoctoralListView(doctorals);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(String id) {
         doctoralRepo.deleteById(id);
     }
 }

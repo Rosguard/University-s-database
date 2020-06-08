@@ -49,7 +49,7 @@ public class TheDepartmentService {
         return mapper4database.toTheDepartmentListView(departments);
     }
 
-    public void deleteByName(int name) {
+    public void deleteByName(String name) {
         thedepartmentRepo.deleteById(name);
     }
 }

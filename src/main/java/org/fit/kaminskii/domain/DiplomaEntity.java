@@ -17,16 +17,10 @@ public class DiplomaEntity {
     @Basic
     @Column(name = "theme", nullable = true, length = -1)
     private String theme;
-    @Basic
-    @Column(name = "the_department", nullable = true, length = -1)
-    private String theDepartment;
-    @Basic
-    @Column(name = "scientific_director_code", nullable = true, length = -1)
-    private Integer scientificDirectorCode;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "the_department", referencedColumnName = "the_department_name", insertable = false, updatable = false)
     private TheDepartmentEntity theDepartmentByTheDepartment;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scientific_director_code", referencedColumnName = "teacher_code", insertable = false, updatable = false)
     private TeacherEntity teacherByScientificDirectorCode;
 

@@ -2,6 +2,7 @@ package org.fit.kaminskii.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.fit.kaminskii.domain.StudentRecordEntityPK;
 import org.fit.kaminskii.services.StudentRecordService;
 import org.fit.kaminskii.views.StudentRecordView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class StudentRecordController {
 
     @DeleteMapping("/deleteStudentRecordById")
     @ApiOperation("Delete studentRecord")
-    public ResponseEntity<String> deleteStudentRecordById(int id) {
+    public ResponseEntity<String> deleteStudentRecordById(StudentRecordEntityPK id) {
         studentRecordService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("StudentRecordView deleted");
     }

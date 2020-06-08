@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface DoctoralRepo extends CrudRepository<DoctoralEntity, Integer> {
+public interface DoctoralRepo extends CrudRepository<DoctoralEntity, String> {
     @Override
     List<DoctoralEntity> findAll();
 

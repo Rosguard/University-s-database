@@ -8,3 +8,5 @@ INSERT INTO public.student (student_code, second_name, first_name, third_name, s
 INSERT INTO public.student (student_code, second_name, first_name, third_name, student_group, sex, birthday, age, number_of_children, grants) VALUES (8, 'Паучок', 'Егор', 'Викторович', 17603, 'мужской', '1999-02-20', 21, 0, 3700);
 INSERT INTO public.student (student_code, second_name, first_name, third_name, student_group, sex, birthday, age, number_of_children, grants) VALUES (9, 'Качанов', 'Федор', 'Русланович', 18201, 'мужской', '1993-09-29', 26, 2, 4900);
 INSERT INTO public.student (student_code, second_name, first_name, third_name, student_group, sex, birthday, age, number_of_children, grants) VALUES (10, 'Пичугин', 'Илья', 'Павлович', 19204, 'мужской', '2000-01-13', 20, 0, 6600);
+
+alter sequence hibernate_sequence restart with 11;

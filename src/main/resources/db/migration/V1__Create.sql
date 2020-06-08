@@ -180,3 +180,25 @@ create table if not exists student_record
 
 alter table student_record owner to postgres;
 
+CREATE FUNCTION trigger_student_record_before() RETURNS trigger AS
+'
+    BEGIN
+        if NEW.date_of_exam > now()
+        then NEW.date_of_exam=now();
+        end if;
+        return NEW;
+    END;'
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER student_record_insert
+    BEFORE INSERT OR UPDATE ON student_record FOR EACH ROW
+EXECUTE PROCEDURE trigger_student_record_before();
+
+CREATE  FUNCTION checkDate(date date) RETURNS date AS $$
+BEGIN
+    if date > now()
+    then return null;
+    else return date;
+    end if;
+END;
+$$ LANGUAGE plpgsql;

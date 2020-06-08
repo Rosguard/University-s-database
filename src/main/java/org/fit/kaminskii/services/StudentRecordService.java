@@ -1,6 +1,7 @@
 package org.fit.kaminskii.services;
 
 import org.fit.kaminskii.domain.StudentRecordEntity;
+import org.fit.kaminskii.domain.StudentRecordEntityPK;
 import org.fit.kaminskii.mapper.Mapper4database;
 import org.fit.kaminskii.views.StudentRecordView;
 import org.fit.kaminskii.repositories.StudentRecordRepo;
@@ -33,7 +34,7 @@ public class StudentRecordService {
         studentrecordRepo.save(studentrecordEntity);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(StudentRecordEntityPK id) {
         studentrecordRepo.deleteById(id);
     }
 }

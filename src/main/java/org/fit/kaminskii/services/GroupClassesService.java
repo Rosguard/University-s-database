@@ -2,6 +2,7 @@ package org.fit.kaminskii.services;
 
 
 import org.fit.kaminskii.domain.GroupClassesEntity;
+import org.fit.kaminskii.domain.GroupClassesEntityPK;
 import org.fit.kaminskii.mapper.Mapper4database;
 import org.fit.kaminskii.views.GroupClassesView;
 import org.fit.kaminskii.repositories.GroupClassesRepo;
@@ -34,7 +35,7 @@ public class GroupClassesService {
         groupClassesRepo.save(groupclassesEntity);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(GroupClassesEntityPK id) {
         groupClassesRepo.deleteById(id);
     }
 }

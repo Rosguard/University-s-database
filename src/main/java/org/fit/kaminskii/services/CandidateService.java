@@ -43,7 +43,7 @@ public class CandidateService {
         return mapper4database.toCandidateListView(candidates);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(String id) {
         candidateRepo.deleteById(id);
     }
 }

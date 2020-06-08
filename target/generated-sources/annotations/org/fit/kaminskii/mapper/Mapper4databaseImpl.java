@@ -29,8 +29,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-05-25T08:21:44+0700",
-    comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.6 (JetBrains s.r.o)"
+    date = "2020-06-07T21:20:23+0700",
+    comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.7 (JetBrains s.r.o.)"
 )
 @Component
 public class Mapper4databaseImpl extends Mapper4database {
@@ -64,12 +64,6 @@ public class Mapper4databaseImpl extends Mapper4database {
         }
         if ( diploma.getTheme() != null ) {
             diplomaEntity.setTheme( diploma.getTheme() );
-        }
-        if ( diploma.getTheDepartment() != null ) {
-            diplomaEntity.setTheDepartment( diploma.getTheDepartment() );
-        }
-        if ( diploma.getScientificDirectorCode() != null ) {
-            diplomaEntity.setScientificDirectorCode( diploma.getScientificDirectorCode() );
         }
     }
 
@@ -113,17 +107,11 @@ public class Mapper4databaseImpl extends Mapper4database {
         if ( groupClasses.getFinishDate() != null ) {
             groupClassesEntity.setFinishDate( groupClasses.getFinishDate() );
         }
-        if ( groupClasses.getLessonType() != null ) {
-            groupClassesEntity.setLessonType( groupClasses.getLessonType() );
-        }
         if ( groupClasses.getSemester() != null ) {
             groupClassesEntity.setSemester( groupClasses.getSemester() );
         }
         if ( groupClasses.getVolume() != null ) {
             groupClassesEntity.setVolume( groupClasses.getVolume() );
-        }
-        if ( groupClasses.getName() != null ) {
-            groupClassesEntity.setName( groupClasses.getName() );
         }
     }
 
@@ -136,9 +124,6 @@ public class Mapper4databaseImpl extends Mapper4database {
         groupEntity.setNumberOfGroup( group.getNumberOfGroup() );
         if ( group.getCourse() != null ) {
             groupEntity.setCourse( group.getCourse() );
-        }
-        if ( group.getFaculty() != null ) {
-            groupEntity.setFaculty( group.getFaculty() );
         }
     }
 
@@ -159,7 +144,7 @@ public class Mapper4databaseImpl extends Mapper4database {
             studentEntity.setThirdName( student.getThirdName() );
         }
         if ( student.getSex() != null ) {
-            studentEntity.setSex( Enum.valueOf( Sex.class, student.getSex() ) );
+            studentEntity.setSex( student.getSex() );
         }
         if ( student.getBirthday() != null ) {
             studentEntity.setBirthday( student.getBirthday() );
@@ -181,10 +166,6 @@ public class Mapper4databaseImpl extends Mapper4database {
             return;
         }
 
-        if ( studentrecord.getSubject() != null ) {
-            studentRecordEntity.setSubject( studentrecord.getSubject() );
-        }
-        studentRecordEntity.setStudentCode( studentrecord.getStudentCode() );
         if ( studentrecord.getTypeOfExam() != null ) {
             studentRecordEntity.setTypeOfExam( studentrecord.getTypeOfExam() );
         }
@@ -193,9 +174,6 @@ public class Mapper4databaseImpl extends Mapper4database {
         }
         if ( studentrecord.getDateOfExam() != null ) {
             studentRecordEntity.setDateOfExam( studentrecord.getDateOfExam() );
-        }
-        if ( studentrecord.getTeacherCode() != null ) {
-            studentRecordEntity.setTeacherCode( studentrecord.getTeacherCode() );
         }
     }
 
@@ -286,8 +264,6 @@ public class Mapper4databaseImpl extends Mapper4database {
         diplomaView.setStudentCode( diplomaEntity.getStudentCode() );
         diplomaView.setName( diplomaEntity.getName() );
         diplomaView.setTheme( diplomaEntity.getTheme() );
-        diplomaView.setTheDepartment( diplomaEntity.getTheDepartment() );
-        diplomaView.setScientificDirectorCode( diplomaEntity.getScientificDirectorCode() );
 
         return diplomaView;
     }
@@ -345,10 +321,8 @@ public class Mapper4databaseImpl extends Mapper4database {
         groupClassesView.setTheDepartment( groupclassesEntityTheDepartmentName( groupclassesEntity ) );
         groupClassesView.setStartDate( groupclassesEntity.getStartDate() );
         groupClassesView.setFinishDate( groupclassesEntity.getFinishDate() );
-        groupClassesView.setLessonType( groupclassesEntity.getLessonType() );
         groupClassesView.setSemester( groupclassesEntity.getSemester() );
         groupClassesView.setVolume( groupclassesEntity.getVolume() );
-        groupClassesView.setName( groupclassesEntity.getName() );
 
         return groupClassesView;
     }
@@ -363,7 +337,6 @@ public class Mapper4databaseImpl extends Mapper4database {
 
         groupView.setNumberOfGroup( groupEntity.getNumberOfGroup() );
         groupView.setCourse( groupEntity.getCourse() );
-        groupView.setFaculty( groupEntity.getFaculty() );
 
         return groupView;
     }
@@ -412,12 +385,9 @@ public class Mapper4databaseImpl extends Mapper4database {
 
         StudentRecordView studentRecordView = new StudentRecordView();
 
-        studentRecordView.setSubject( studentrecordEntity.getSubject() );
-        studentRecordView.setStudentCode( studentrecordEntity.getStudentCode() );
         studentRecordView.setTypeOfExam( studentrecordEntity.getTypeOfExam() );
         studentRecordView.setMark( studentrecordEntity.getMark() );
         studentRecordView.setDateOfExam( studentrecordEntity.getDateOfExam() );
-        studentRecordView.setTeacherCode( studentrecordEntity.getTeacherCode() );
 
         return studentRecordView;
     }

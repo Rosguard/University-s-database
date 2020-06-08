@@ -42,7 +42,7 @@ public class FacultyController {
 
     @DeleteMapping("/deleteFacultyById")
     @ApiOperation("Delete faculty")
-    public ResponseEntity<String> deleteFacultyById(int id) {
+    public ResponseEntity<String> deleteFacultyById(String id) {
         facultyService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("FacultyView deleted");
     }

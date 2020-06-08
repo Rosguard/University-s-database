@@ -59,7 +59,7 @@ public class CandidateController {
 
     @DeleteMapping("/deleteCandidateById")
     @ApiOperation("Delete candidate")
-    public ResponseEntity<String> deleteCandidateById(int id) {
+    public ResponseEntity<String> deleteCandidateById(String id) {
         candidateService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("CandidateView deleted");
     }

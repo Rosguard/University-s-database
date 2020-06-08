@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CandidateRepo extends CrudRepository<CandidateEntity, Integer> {
+public interface CandidateRepo extends CrudRepository<CandidateEntity, String> {
     @Override
     List<CandidateEntity> findAll();
 

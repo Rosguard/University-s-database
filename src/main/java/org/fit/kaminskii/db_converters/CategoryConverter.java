@@ -1,4 +1,4 @@
-package org.fit.kaminskii.converters;
+package org.fit.kaminskii.db_converters;
 
 import org.fit.kaminskii.model.TeacherCategory;
 

@@ -1,26 +1,12 @@
 package org.fit.kaminskii.converters;
 
+
 import org.fit.kaminskii.model.Sex;
+import org.springframework.core.convert.converter.Converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
-@Converter
-public class SexConverter implements AttributeConverter<Sex, String> {
-
+public class SexConverter implements Converter<String, Sex> {
     @Override
-    public String convertToDatabaseColumn(Sex value) {
-        if (value == null) {
-            return null;
-        }
-        return value.getSex();
-    }
-
-    @Override
-    public Sex convertToEntityAttribute(String value) {
-        if (value == null) {
-            return null;
-        }
-        return Sex.findBySex(value);
+    public Sex convert(String source) {
+        return Sex.findBySex(source);
     }
 }

@@ -33,7 +33,7 @@ public class FacultyService {
         facultyRepo.save(facultyEntity);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(String id) {
         facultyRepo.deleteById(id);
     }
 }

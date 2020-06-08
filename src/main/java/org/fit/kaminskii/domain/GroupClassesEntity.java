@@ -1,19 +1,20 @@
 package org.fit.kaminskii.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.fit.kaminskii.converters.CategoryConverter;
-import org.fit.kaminskii.converters.LessonTypeConverter;
-import org.fit.kaminskii.model.LessonType;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Objects;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "group_classes", schema = "public", catalog = "postgres")
-@IdClass(GroupClassesEntityPK.class)
 public class GroupClassesEntity {
+    @EmbeddedId
+    private GroupClassesEntityPK groupClassesEntityPK;
 
     @Basic
     @Column(name = "start_date", nullable = true)
@@ -21,27 +22,20 @@ public class GroupClassesEntity {
     @Basic
     @Column(name = "finish_date", nullable = true)
     private Date finishDate;
-    @Id
-    @Column(name = "lesson_type", nullable = false, length = -1)
-    //@Convert(converter = LessonTypeConverter.class)
-    private String lessonType;
     @Basic
     @Column(name = "semester", nullable = true)
     private Integer semester;
     @Basic
     @Column(name = "volume", nullable = true)
     private Integer volume;
-    @Id
-    @Column(name = "lesson_name", nullable = false, length = -1)
-    private String name;
-    @Id
-    @ManyToOne
+    @MapsId("groupNumber")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_number", referencedColumnName = "number_of_group", nullable = false, insertable = false, updatable = false)
     private GroupEntity groupNumber;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "the_department", referencedColumnName = "the_department_name", nullable = false, insertable = false, updatable = false)
     private TheDepartmentEntity theDepartment;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_code", referencedColumnName = "teacher_code", insertable = false, updatable = false)
     private TeacherEntity teacherCode;
 }

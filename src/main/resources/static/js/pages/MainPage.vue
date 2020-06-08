@@ -1,10 +1,19 @@
 <template>
-    <div  class="pageClass">
-<!--        <left-menu></left-menu>-->
-        <v-content >
-            <p>Приветствуем Вас на домашней странице!</p>
+    <div class="pageClass">
+<!--        <iframe width="560" height="315" src="https://www.youtube.com/embed/NYDlPg14dGQ" frameborder="0"-->
+<!--                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"-->
+<!--                allowfullscreen></iframe>-->
+        <v-carousel cycle height="900"
+        >
+            <v-carousel-item
 
-        </v-content>
+                    v-for="(item,i) in items"
+                    :key="i"
+                    :src="item.src"
+                    reverse-transition="fade-transition"
+                    transition="fade-transition"
+            ></v-carousel-item>
+        </v-carousel>
     </div>
 </template>
 
@@ -13,13 +22,26 @@
 
     export default {
         name: "MainPage",
-        components: {LeftMenu}
+        components: {LeftMenu},
+        data() {
+            return {
+                dialog: false,
+                items: [
+
+                    {
+                        src: 'https://media.giphy.com/media/26tn5EPJlbNt8CFkk/giphy.gif',
+                    },
+                ],
+            }
+        },
+
+
     }
 </script>
 
 <style scoped>
-.pageClass{
-    background: rgba(128, 128, 128, 0.89);
-    height: 100%;
-}
+    .pageClass {
+        background: rgba(128, 128, 128, 0.89);
+        height: 100%;
+    }
 </style>

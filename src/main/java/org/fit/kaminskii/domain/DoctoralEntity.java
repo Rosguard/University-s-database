@@ -1,6 +1,7 @@
 package org.fit.kaminskii.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -19,6 +20,7 @@ public class DoctoralEntity {
     @Basic
     @Column(name = "theme", nullable = true, length = -1)
     private String theme;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctoral")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "doctoral")
     private Collection<TeacherEntity> teachersByName;
 }

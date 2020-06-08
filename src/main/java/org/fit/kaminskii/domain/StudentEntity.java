@@ -1,7 +1,10 @@
 package org.fit.kaminskii.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.fit.kaminskii.converters.SexConverter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.fit.kaminskii.db_converters.SexConverter;
 import org.fit.kaminskii.model.Sex;
 
 import javax.persistence.*;
@@ -11,6 +14,8 @@ import java.util.Collection;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "student", schema = "public", catalog = "postgres")
 public class StudentEntity {
     @Id
@@ -42,9 +47,10 @@ public class StudentEntity {
     @Basic
     @Column(name = "grants", nullable = true)
     private BigDecimal grants;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_group", referencedColumnName = "number_of_group", insertable = false, updatable = false)
     private GroupEntity studentGroup;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentByStudentCode")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "studentByStudentCode")
     private Collection<StudentRecordEntity> studentRecordsByStudentCode;
 }

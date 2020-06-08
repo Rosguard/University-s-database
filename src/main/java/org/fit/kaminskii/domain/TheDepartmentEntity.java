@@ -1,6 +1,7 @@
 package org.fit.kaminskii.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -12,13 +13,16 @@ public class TheDepartmentEntity {
     @Id
     @Column(name = "the_department_name", nullable = false, length = -1)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "theDepartmentByTheDepartment")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "theDepartmentByTheDepartment")
     private Collection<DiplomaEntity> diplomasByName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "theDepartment")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "theDepartment")
     private Collection<GroupClassesEntity> groupClassesByName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "theDepartment")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "theDepartment")
     private Collection<TeacherEntity> teachersByName;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Faculty", referencedColumnName = "faculty_name", insertable = false, updatable = false)
     private FacultyEntity faculty;
 }
