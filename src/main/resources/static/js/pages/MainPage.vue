@@ -3,6 +3,8 @@
 <!--        <iframe width="560" height="315" src="https://www.youtube.com/embed/NYDlPg14dGQ" frameborder="0"-->
 <!--                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"-->
 <!--                allowfullscreen></iframe>-->
+<!--        <iframe src="//coub.com/embed/9ub090?muted=false&autostart=false&originalSize=true&startWithHD=true"-->
+<!--                allowfullscreen frameborder="0" width="960" height="960" allow="autoplay"></iframe>-->
         <v-carousel cycle height="900"
         >
             <v-carousel-item
@@ -27,7 +29,6 @@
             return {
                 dialog: false,
                 items: [
-
                     {
                         src: 'https://media.giphy.com/media/26tn5EPJlbNt8CFkk/giphy.gif',
                     },
