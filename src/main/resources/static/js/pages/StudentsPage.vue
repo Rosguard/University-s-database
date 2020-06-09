@@ -6,6 +6,8 @@
                 <p class="operationName">
                     Получение данных всех студентов
                 </p>
+            </v-row>
+            <v-row>
                 <v-col></v-col>
                 <v-col>
                     <template>
@@ -134,8 +136,6 @@
             </v-row>
 
         </v-container>
-
-
         <!--        Группа-->
         <v-container>
             <v-row>
@@ -524,10 +524,89 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <v-text-field v-model="studentBirthday" placeholder="Введите дату"></v-text-field>
+                    <v-menu
+                            ref="menu2"
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            max-width="290px"
+                            min-width="290px"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-text-field
+                                    v-model="dateFormatted"
+                                    label="Date"
+                                    hint="MM/DD/YYYY format"
+                                    persistent-hint
+                                    @blur="date = parseDate(dateFormatted)"
+                                    v-on="on"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" no-title @input="menu2 = false"></v-date-picker>
+                    </v-menu>
                 </v-col>
                 <v-col>
-                    <v-btn @click="showStudentsByBirthday">Получить студентов</v-btn>
+                    <template>
+                        <v-row justify="center">
+                            <v-dialog v-model="dialogBirthday" fullscreen hide-overlay
+                                      transition="dialog-bottom-transition">
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark v-on="on" @click="showStudentsByBirthday">
+                                        Получить
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-toolbar dark color="primary">
+                                        <v-btn icon dark @click="dialogBirthday = false">
+                                            <v-icon>mdi-close</v-icon>
+                                        </v-btn>
+                                        <v-toolbar-title>Студенты родившиеся {{studentBirthday}}</v-toolbar-title>
+                                        <v-tab></v-tab>
+                                        <v-tab>
+                                            Всего элементов: {{totalElements}}
+                                        </v-tab>
+                                        <v-tab>
+                                            Элементов на странице
+                                        </v-tab>
+                                        <v-text-field v-model="size" placeholder="Количество элементов"></v-text-field>
+                                        <v-tab> Номер страницы</v-tab>
+                                        <v-text-field v-model="page" placeholder="Номер страницы"></v-text-field>
+                                        <v-tab></v-tab>
+                                        <v-btn color="primary" dark v-on="on" @click="showStudentsByBirthday">Получить
+                                        </v-btn>
+                                    </v-toolbar>
+                                    <template>
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-left" v-for="header in headers" :header="header">
+                                                        {{header.text}}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="bir in studentsData" :bir="bir">
+                                                    <td>{{bir.studentCode}}</td>
+                                                    <td>{{bir.secondName}}</td>
+                                                    <td>{{bir.firstName}}</td>
+                                                    <td>{{bir.thirdName}}</td>
+                                                    <td>{{bir.group}}</td>
+                                                    <td>{{bir.sex}}</td>
+                                                    <td>{{bir.birthday}}</td>
+                                                    <td>{{bir.age}}</td>
+                                                    <td>{{bir.numberOfChildren}}</td>
+                                                    <td>{{bir.grants}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                    </template>
+                                </v-card>
+                            </v-dialog>
+                        </v-row>
+                    </template>
                 </v-col>
             </v-row>
 
@@ -541,10 +620,74 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <v-text-field v-model="studentSex" placeholder="Введите пол"></v-text-field>
+                    <v-overflow-btn
+                            v-model="studentSex"
+                            :items="sexTest"
+                            label="Пол"
+                            item-value="text"
+                    ></v-overflow-btn>
                 </v-col>
                 <v-col>
-                    <v-btn @click="showStudentsBySex">Получить студентов</v-btn>
+                    <template>
+                        <v-row justify="center">
+                            <v-dialog v-model="dialogSex" fullscreen hide-overlay
+                                      transition="dialog-bottom-transition">
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark v-on="on" @click="showStudentsBySex">
+                                        Получить
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-toolbar dark color="primary">
+                                        <v-btn icon dark @click="dialogSex = false">
+                                            <v-icon>mdi-close</v-icon>
+                                        </v-btn>
+                                        <v-toolbar-title>Студенты с указанным полом</v-toolbar-title>
+                                        <v-tab></v-tab>
+                                        <v-tab>
+                                            Всего элементов: {{totalElements}}
+                                        </v-tab>
+                                        <v-tab>
+                                            Элементов на странице
+                                        </v-tab>
+                                        <v-text-field v-model="size" placeholder="Количество элементов"></v-text-field>
+                                        <v-tab> Номер страницы</v-tab>
+                                        <v-text-field v-model="page" placeholder="Номер страницы"></v-text-field>
+                                        <v-tab></v-tab>
+                                        <v-btn color="primary" dark v-on="on" @click="showStudentsBySex">Получить
+                                        </v-btn>
+                                    </v-toolbar>
+                                    <template>
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-left" v-for="header in headers" :header="header">
+                                                        {{header.text}}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="sex in studentsData" :sex="sex">
+                                                    <td>{{sex.studentCode}}</td>
+                                                    <td>{{sex.secondName}}</td>
+                                                    <td>{{sex.firstName}}</td>
+                                                    <td>{{sex.thirdName}}</td>
+                                                    <td>{{sex.group}}</td>
+                                                    <td>{{sex.sex}}</td>
+                                                    <td>{{sex.birthday}}</td>
+                                                    <td>{{sex.age}}</td>
+                                                    <td>{{sex.numberOfChildren}}</td>
+                                                    <td>{{sex.grants}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                    </template>
+                                </v-card>
+                            </v-dialog>
+                        </v-row>
+                    </template>
                 </v-col>
             </v-row>
 
@@ -567,10 +710,70 @@
                     <v-text-field v-model="studentThirdName" placeholder="Введите отчество"></v-text-field>
                 </v-col>
                 <v-col>
-                    <v-btn @click="showStudentsByName">Получить студента</v-btn>
+                    <template>
+                        <v-row justify="center">
+                            <v-dialog v-model="dialogName" fullscreen hide-overlay
+                                      transition="dialog-bottom-transition">
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark v-on="on" @click="showStudentsByName">
+                                        Получить
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-toolbar dark color="primary">
+                                        <v-btn icon dark @click="dialogName = false">
+                                            <v-icon>mdi-close</v-icon>
+                                        </v-btn>
+                                        <v-toolbar-title>Студенты с именем: {{studentSecondName}} {{studentFirstName}}
+                                            {{studentThirdName}}
+                                        </v-toolbar-title>
+                                        <v-tab></v-tab>
+                                        <v-tab>
+                                            Всего элементов: {{totalElements}}
+                                        </v-tab>
+                                        <v-tab>
+                                            Элементов на странице
+                                        </v-tab>
+                                        <v-text-field v-model="size" placeholder="Количество элементов"></v-text-field>
+                                        <v-tab> Номер страницы</v-tab>
+                                        <v-text-field v-model="page" placeholder="Номер страницы"></v-text-field>
+                                        <v-tab></v-tab>
+                                        <v-btn color="primary" dark v-on="on" @click="showStudentsByName">Получить
+                                        </v-btn>
+                                    </v-toolbar>
+                                    <template>
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-left" v-for="header in headers" :header="header">
+                                                        {{header.text}}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="name in studentsData" :name="name">
+                                                    <td>{{name.studentCode}}</td>
+                                                    <td>{{name.secondName}}</td>
+                                                    <td>{{name.firstName}}</td>
+                                                    <td>{{name.thirdName}}</td>
+                                                    <td>{{name.group}}</td>
+                                                    <td>{{name.sex}}</td>
+                                                    <td>{{name.birthday}}</td>
+                                                    <td>{{name.age}}</td>
+                                                    <td>{{name.numberOfChildren}}</td>
+                                                    <td>{{name.grants}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                    </template>
+                                </v-card>
+                            </v-dialog>
+                        </v-row>
+                    </template>
                 </v-col>
             </v-row>
-
         </v-container>
         <!--        Группа, предмет, оценка-->
         <v-container>
@@ -587,10 +790,75 @@
                     <v-text-field v-model="subject" placeholder="Введите предмет"></v-text-field>
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="mark" placeholder="Введите оценку"></v-text-field>
+                    <v-overflow-btn
+                            v-model="mark"
+                            :items="markTest"
+                            label="Оценка"
+                            item-value="text"
+                    ></v-overflow-btn>
                 </v-col>
                 <v-col>
-                    <v-btn @click="showStudentsByGroupAndSubjectAndMark">Получить студентов</v-btn>
+                    <template>
+                        <v-row justify="center">
+                            <v-dialog v-model="dialogGSM" fullscreen hide-overlay
+                                      transition="dialog-bottom-transition">
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark v-on="on" @click="showStudentsByGroupAndSubjectAndMark">
+                                        Получить
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-toolbar dark color="primary">
+                                        <v-btn icon dark @click="dialogGSM = false">
+                                            <v-icon>mdi-close</v-icon>
+                                        </v-btn>
+                                        <v-toolbar-title>Результаты запроса</v-toolbar-title>
+                                        <v-tab></v-tab>
+                                        <v-tab>
+                                            Всего элементов: {{totalElements}}
+                                        </v-tab>
+                                        <v-tab>
+                                            Элементов на странице
+                                        </v-tab>
+                                        <v-text-field v-model="size" placeholder="Количество элементов"></v-text-field>
+                                        <v-tab> Номер страницы</v-tab>
+                                        <v-text-field v-model="page" placeholder="Номер страницы"></v-text-field>
+                                        <v-tab></v-tab>
+                                        <v-btn color="primary" dark v-on="on"
+                                               @click="showStudentsByGroupAndSubjectAndMark">Получить
+                                        </v-btn>
+                                    </v-toolbar>
+                                    <template>
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-left" v-for="header in headers" :header="header">
+                                                        {{header.text}}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="gsm in studentsData" :gsm="gsm">
+                                                    <td>{{gsm.studentCode}}</td>
+                                                    <td>{{gsm.secondName}}</td>
+                                                    <td>{{gsm.firstName}}</td>
+                                                    <td>{{gsm.thirdName}}</td>
+                                                    <td>{{gsm.group}}</td>
+                                                    <td>{{gsm.sex}}</td>
+                                                    <td>{{gsm.birthday}}</td>
+                                                    <td>{{gsm.age}}</td>
+                                                    <td>{{gsm.numberOfChildren}}</td>
+                                                    <td>{{gsm.grants}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                    </template>
+                                </v-card>
+                            </v-dialog>
+                        </v-row>
+                    </template>
                 </v-col>
             </v-row>
         </v-container>
@@ -612,14 +880,83 @@
                     <v-text-field v-model="subject" placeholder="Введите предмет"></v-text-field>
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="mark" placeholder="Введите оценку"></v-text-field>
+                    <v-overflow-btn
+                            v-model="mark"
+                            :items="markTest"
+                            label="Оценка"
+                            item-value="text"
+                    ></v-overflow-btn>
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="semester" placeholder="Введите семестр"></v-text-field>
+                    <v-overflow-btn
+                            v-model="semester"
+                            :items="semesterTest"
+                            label="Семестр"
+                            item-value="text"
+                    ></v-overflow-btn>
                 </v-col>
                 <v-col>
-                    <v-btn @click="showStudentsByGroupAndTeacherAndMarkAndSubjectAndSemester">Получить студентов
-                    </v-btn>
+                    <template>
+                        <v-row justify="center">
+                            <v-dialog v-model="dialogGTMSS" fullscreen hide-overlay
+                                      transition="dialog-bottom-transition">
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark v-on="on" @click="showStudentsByGroupAndTeacherAndMarkAndSubjectAndSemester">
+                                        Получить
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-toolbar dark color="primary">
+                                        <v-btn icon dark @click="dialogGTMSS = false">
+                                            <v-icon>mdi-close</v-icon>
+                                        </v-btn>
+                                        <v-toolbar-title>Результаты запроса</v-toolbar-title>
+                                        <v-tab></v-tab>
+                                        <v-tab>
+                                            Всего элементов: {{totalElements}}
+                                        </v-tab>
+                                        <v-tab>
+                                            Элементов на странице
+                                        </v-tab>
+                                        <v-text-field v-model="size" placeholder="Количество элементов"></v-text-field>
+                                        <v-tab> Номер страницы</v-tab>
+                                        <v-text-field v-model="page" placeholder="Номер страницы"></v-text-field>
+                                        <v-tab></v-tab>
+                                        <v-btn color="primary" dark v-on="on"
+                                               @click="showStudentsByGroupAndTeacherAndMarkAndSubjectAndSemester">Получить
+                                        </v-btn>
+                                    </v-toolbar>
+                                    <template>
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-left" v-for="header in headers" :header="header">
+                                                        {{header.text}}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="gstmss in studentsData" :gstmss="gstmss">
+                                                    <td>{{gstmss.studentCode}}</td>
+                                                    <td>{{gstmss.secondName}}</td>
+                                                    <td>{{gstmss.firstName}}</td>
+                                                    <td>{{gstmss.thirdName}}</td>
+                                                    <td>{{gstmss.group}}</td>
+                                                    <td>{{gstmss.sex}}</td>
+                                                    <td>{{gstmss.birthday}}</td>
+                                                    <td>{{gstmss.age}}</td>
+                                                    <td>{{gstmss.numberOfChildren}}</td>
+                                                    <td>{{gstmss.grants}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                    </template>
+                                </v-card>
+                            </v-dialog>
+                        </v-row>
+                    </template>
                 </v-col>
             </v-row>
         </v-container>
@@ -631,9 +968,6 @@
                 </p>
             </v-row>
             <v-row>
-                <!--                <v-col>-->
-                <!--                    <v-text-field v-model="studentId" placeholder="Введите Id"></v-text-field>-->
-                <!--                </v-col>-->
                 <v-col>
                     <v-text-field v-model="studentSecondName" placeholder="Введите фамилию"></v-text-field>
                 </v-col>
@@ -647,10 +981,14 @@
                     <v-text-field v-model="studentGroup" placeholder="Введите группу"></v-text-field>
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="studentSex" placeholder="Введите пол"></v-text-field>
+                    <v-overflow-btn
+                            v-model="studentSex"
+                            :items="sexTest"
+                            label="Пол"
+                            item-value="text"
+                    ></v-overflow-btn>
                 </v-col>
                 <v-col>
-                    <!--                    <v-text-field v-model="studentBirthday" placeholder="Введите дату рождения"></v-text-field>-->
                     <v-menu
                             ref="menu1"
                             v-model="menu1"
@@ -672,7 +1010,6 @@
                         </template>
                         <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker>
                     </v-menu>
-                    <!--                    <p>Date in ISO format: <strong>{{ date }}</strong></p>-->
                 </v-col>
                 <v-col>
                     <v-text-field v-model="studentAge" placeholder="Введите возраст"></v-text-field>
@@ -685,7 +1022,7 @@
                 </v-col>
 
                 <v-col>
-                    <v-btn @click="createStudent">Добавить студента</v-btn>
+                    <v-btn color="primary" dark @click="createStudent">Добавить студента</v-btn>
                 </v-col>
             </v-row>
 
@@ -697,7 +1034,7 @@
     export default {
         data() {
             return {
-                elemCounter: 0,
+                // elemCounter: 0,
                 IdRules: [
                     v => !!v || 'Student code is required',
                 ],
@@ -705,7 +1042,7 @@
                     v => !!v || 'Group is required',
                     v => /^\d+$/.test(v) || 'Group should be a number',
                 ],
-                studentData: null,
+                // studentData: null,
                 studentsData: [{
                     studentCode: "",
                     secondName: "",
@@ -718,6 +1055,26 @@
                     numberOfChildren: null,
                     grants: "",
                 }],
+                sexTest: [
+                    {text: "мужской"},
+                    {text: "женский"},
+                ],
+                markTest: [
+                    {text: "5"},
+                    {text: "4"},
+                    {text: "3"},
+                    {text: "2"}
+                ],
+                semesterTest: [ //При условии, что у нас всего 4 года обучение идет
+                    {text: "1"},
+                    {text: "2"},
+                    {text: "3"},
+                    {text: "4"},
+                    {text: "5"},
+                    {text: "6"},
+                    {text: "7"},
+                    {text: "8"},
+                ],
                 studentId: null,
                 studentGroup: null,
                 studentCourse: null,
@@ -744,6 +1101,11 @@
                 dialogChildren: false,
                 dialogFaculty: false,
                 dialogGrants: false,
+                dialogBirthday: false,
+                dialogSex: false,
+                dialogName: false,
+                dialogGSM: false,
+                dialogGTMSS: false,
 
                 page: 0, //Страница
                 pageCount: 0,//Кол-во страниц
@@ -753,6 +1115,7 @@
                 date: new Date().toISOString().substr(0, 10),
                 dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
                 menu1: false,
+                menu2: false,
                 // student:
                 //     {
                 //         studentCode: 0,
@@ -799,6 +1162,7 @@
                 const [month, day, year] = date.split('/')
                 return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
             },
+
             showAllStudents() {
                 const size = this.size;
                 const page = this.page;
@@ -982,54 +1346,48 @@
                 })
             },
             showStudentsByName() {
+                const size = this.size;
+                const page = this.page;
                 const secondName = this.studentSecondName;
                 const firstName = this.studentFirstName;
                 const thirdName = this.studentThirdName;
                 this.$resource("/students/studentsByName").get({
                     "secondName": secondName,
                     "firstName": firstName,
-                    "thirdName": thirdName
+                    "thirdName": thirdName,
+                    "page": page,
+                    "size": size
                 }).then(result => {
                     result.json().then(data => {
-                        this.studentsData = data;
-                        // this.student.studentCode = data.studentCode;
-                        // this.student.secondName = data.secondName;
-                        // this.student.firstName = data.firstName;
-                        // this.student.thirdName = data.thirdName;
-                        // this.student.group = data.group;
-                        // this.student.sex = data.sex;
-                        // this.student.birthday = data.birthday;
-                        // this.student.age = data.age;
-                        // this.student.numberOfChildren = data.numberOfChildren;
-                        // this.student.grants = data.grants;
+                        this.studentsData = data.content;
+                        this.pageCount = data.totalPages;
+                        this.totalElements = data.totalElements;
                     })
                 })
             },
             showStudentsByGroupAndSubjectAndMark() {
+                const size = this.size;
+                const page = this.page;
                 const group = this.studentGroup;
                 const subject = this.subject;
                 const mark = this.mark;
                 this.$resource("/students/studentByGroupNumberAndSubjectAndMark").get({
                     "groupNumber": group,
                     "subject": subject,
-                    "mark": mark
+                    "mark": mark,
+                    "page": page,
+                    "size": size
                 }).then(result => {
                     result.json().then(data => {
-                        this.studentsData = data;
-                        // this.student.studentCode = data.studentCode;
-                        // this.student.secondName = data.secondName;
-                        // this.student.firstName = data.firstName;
-                        // this.student.thirdName = data.thirdName;
-                        // this.student.group = data.group;
-                        // this.student.sex = data.sex;
-                        // this.student.birthday = data.birthday;
-                        // this.student.age = data.age;
-                        // this.student.numberOfChildren = data.numberOfChildren;
-                        // this.student.grants = data.grants;
+                        this.studentsData = data.content;
+                        this.pageCount = data.totalPages;
+                        this.totalElements = data.totalElements;
                     })
                 })
             },
             showStudentsByGroupAndTeacherAndMarkAndSubjectAndSemester() {
+                const size = this.size;
+                const page = this.page;
                 const group = this.studentGroup;
                 const subject = this.subject;
                 const mark = this.mark;
@@ -1040,20 +1398,14 @@
                     "teacherCode": teacherId,
                     "subject": subject,
                     "mark": mark,
-                    "semester": semester
+                    "semester": semester,
+                    "page": page,
+                    "size": size
                 }).then(result => {
                     result.json().then(data => {
-                        this.studentsData = data;
-                        // this.student.studentCode = data.studentCode;
-                        // this.student.secondName = data.secondName;
-                        // this.student.firstName = data.firstName;
-                        // this.student.thirdName = data.thirdName;
-                        // this.student.group = data.group;
-                        // this.student.sex = data.sex;
-                        // this.student.birthday = data.birthday;
-                        // this.student.age = data.age;
-                        // this.student.numberOfChildren = data.numberOfChildren;
-                        // this.student.grants = data.grants;
+                        this.studentsData = data.content;
+                        this.pageCount = data.totalPages;
+                        this.totalElements = data.totalElements;
                     })
                 })
             },
