@@ -1,30 +1,33 @@
 package org.fit.kaminskii.services;
 
+import lombok.RequiredArgsConstructor;
 import org.fit.kaminskii.domain.DoctoralEntity;
 import org.fit.kaminskii.mapper.Mapper4database;
 import org.fit.kaminskii.views.DoctoralView;
 import org.fit.kaminskii.repositories.DoctoralRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class DoctoralService {
     @Autowired
     private DoctoralRepo doctoralRepo;
     @Autowired
     private Mapper4database mapper4database;
 
-    public List<DoctoralView> showAll() {
-        Iterable<DoctoralEntity> doctorallist = doctoralRepo.findAll();
-        List<DoctoralView> doctoral = new ArrayList<>();
-        for (DoctoralEntity doctoralEntity : doctorallist) {
-            doctoral.add(mapper4database.toDoctoralView(doctoralEntity));
-        }
-        return doctoral;
+    public Page<DoctoralView> showAll(int page, int size) {
+//        Iterable<DoctoralEntity> doctorallist = doctoralRepo.findAll();
+//        Page<DoctoralView> doctoral = new ArrayPage<>();
+//        for (DoctoralEntity doctoralEntity : doctorallist) {
+//            doctoral.add(mapper4database.toDoctoralView(doctoralEntity));
+//        }
+//        return doctoral;
+        Page<DoctoralEntity> doctoralPage = doctoralRepo.findAll(PageRequest.of(page, size));
+        return mapper4database.toDoctoralPage(doctoralPage);
     }
 
     public void create(DoctoralView doctoral) {
@@ -33,17 +36,17 @@ public class DoctoralService {
         doctoralRepo.save(doctoralEntity);
     }
 
-    public List<DoctoralView> findDoctoralByTheDepartment(String department) {
-        List<DoctoralEntity> doctorals = doctoralRepo.findDoctoralByTheDepartment(department);
-        return mapper4database.toDoctoralListView(doctorals);
+    public Page<DoctoralView> findDoctoralByTheDepartment(String theDepartment, int page, int size) {
+        Page<DoctoralEntity> doctorals = doctoralRepo.findDoctoralByTheDepartment(theDepartment,PageRequest.of(page, size));
+        return mapper4database.toDoctoralPage(doctorals);
     }
 
-    public List<DoctoralView> findDoctoralByFaculty(String faculty) {
-        List<DoctoralEntity> doctorals = doctoralRepo.findDoctoralByFaculty(faculty);
-        return mapper4database.toDoctoralListView(doctorals);
+    public Page<DoctoralView> findDoctoralByFaculty(String faculty, int page, int size) {
+        Page<DoctoralEntity> doctorals = doctoralRepo.findDoctoralByFaculty(faculty,PageRequest.of(page, size));
+        return mapper4database.toDoctoralPage(doctorals);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(String id) {
         doctoralRepo.deleteById(id);
     }
 }

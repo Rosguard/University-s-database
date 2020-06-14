@@ -1,22 +1,27 @@
 package org.fit.kaminskii.model;
 
-public enum TeacherCategory {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public enum Category {
     Postgraduate("Аспирант"),
     Candidate("Кандидат"),
     Doctoral("Доктор");
 
     private final String category;
 
-    TeacherCategory(String category) {
+    Category(String category) {
         this.category = category;
     }
 
+    @JsonValue
     public String getCategory() {
         return category;
     }
 
-    public static TeacherCategory findByCategory(String category) {
-        for (TeacherCategory one : values()) {
+    @JsonCreator
+    public static Category findByCategory(String category) {
+        for (Category one : values()) {
             if (one.category.equals(category))
                 return one;
         }

@@ -2,7 +2,7 @@ package org.fit.kaminskii.views;
 
 import lombok.Data;
 import org.fit.kaminskii.model.Sex;
-import org.fit.kaminskii.model.TeacherCategory;
+import org.fit.kaminskii.model.Category;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,12 +23,11 @@ public class TeacherView {
     @NotNull
     private String theDepartment;
     @NotNull
-    private TeacherCategory category;
+    private Category category;
     @NotNull
     private Sex sex;
     @NotNull
     private Date birthday;
-    @NotNull
     private Integer age;
     private Integer numberOfChildren;
     @NotNull
@@ -37,12 +36,12 @@ public class TeacherView {
     private String doctoral;
     private String candidate;
 
-    public String getSex() {
-        return sex.getSex();
-    }
-
-    public String getCategory() {
-        return category.getCategory();
-    }
+//    public String getSex() {
+//        return sex.getSex();
+//    }
+//
+//    public String getCategory() {
+//        return category.getCategory();
+//    }
 
 }

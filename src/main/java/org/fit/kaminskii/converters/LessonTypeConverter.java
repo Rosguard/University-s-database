@@ -1,26 +1,12 @@
 package org.fit.kaminskii.converters;
 
+
 import org.fit.kaminskii.model.LessonType;
+import org.springframework.core.convert.converter.Converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
-@Converter
-public class LessonTypeConverter implements AttributeConverter<LessonType, String> {
-
+public class LessonTypeConverter implements Converter<String, LessonType> {
     @Override
-    public String convertToDatabaseColumn(LessonType value) {
-        if (value == null) {
-            return null;
-        }
-        return value.getLessonType();
-    }
-
-    @Override
-    public LessonType convertToEntityAttribute(String value) {
-        if (value == null) {
-            return null;
-        }
-        return LessonType.findByLessonType(value);
+    public LessonType convert(String source) {
+        return LessonType.findByLessonType(source);
     }
 }

@@ -1,6 +1,7 @@
 package org.fit.kaminskii.views;
 
 import lombok.Data;
+import org.fit.kaminskii.model.ExamType;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -12,11 +13,16 @@ public class StudentRecordView {
     @NotNull
     private int studentCode;
     @NotNull
-    private String typeOfExam;
+    private ExamType typeOfExam;
     @NotNull
     private Integer mark;
     @NotNull
     private Date dateOfExam;
     @NotNull
     private Integer teacherCode;
+
+
+//    public String getExamType() {
+//        return typeOfExam.getExamType();
+//    }
 }

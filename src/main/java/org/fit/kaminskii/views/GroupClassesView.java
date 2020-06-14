@@ -20,13 +20,14 @@ public class GroupClassesView {
     @NotNull
     private Integer teacherCode;
     @NotNull
-    private String lessonType;
+    private LessonType lessonType;
     @NotNull
     private Integer semester;
     @NotNull
     private Integer volume;
     @NotNull
     private String name;
+
 //    public String getLessonType(){
 //        return lessonType.getLessonType();
 //    }

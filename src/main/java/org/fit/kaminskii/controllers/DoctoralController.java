@@ -5,22 +5,14 @@ import io.swagger.annotations.ApiOperation;
 import org.fit.kaminskii.services.DoctoralService;
 import org.fit.kaminskii.views.DoctoralView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @Api
-@Controller
+@RestController
 @RequestMapping("/doctorals")
 public class DoctoralController {
     @Autowired
@@ -29,38 +21,36 @@ public class DoctoralController {
     @GetMapping("/showAll")
     @ApiOperation("Show all doctorals")
     @ResponseBody
-    public List<DoctoralView> showDoctorals() {
-        return doctoralService.showAll();
+    public Page<DoctoralView> showDoctorals(int page, int size) {
+        return doctoralService.showAll(page, size);
     }
 
     @GetMapping("/doctoralByFaculty")
     @ApiOperation("Show doctorals by the Faculty")
     @ResponseBody
-    public ResponseEntity<List<DoctoralView>> showDoctoralsByFaculty(String Faculty) {
-        List<DoctoralView> doctorals = doctoralService.findDoctoralByFaculty(Faculty);
-        return ResponseEntity.status(HttpStatus.OK).body(doctorals);
+    public Page<DoctoralView> showDoctoralsByFaculty(String faculty,int page, int size) {
+        return doctoralService.findDoctoralByFaculty(faculty, page, size);
     }
 
 
     @GetMapping("/doctoralByTheDepartment")
     @ApiOperation("Show doctorals by the department")
     @ResponseBody
-    public ResponseEntity<List<DoctoralView>> showDoctoralsByTheDepartment(String department) {
-        List<DoctoralView> doctorals = doctoralService.findDoctoralByTheDepartment(department);
-        return ResponseEntity.status(HttpStatus.OK).body(doctorals);
+    public Page<DoctoralView> showDoctoralsByTheDepartment(String theDepartment,int page, int size) {
+        return doctoralService.findDoctoralByTheDepartment(theDepartment, page, size);
     }
 
     @PostMapping("/createDoctoral")
     @ApiOperation("Create doctoral")
-    public ResponseEntity<String> createDoctoral(@Valid @RequestBody DoctoralView doctoral) {
+    public String createDoctoral(@Valid @RequestBody DoctoralView doctoral) {
         doctoralService.create(doctoral);
-        return ResponseEntity.status(HttpStatus.CREATED).body("DoctoralView added");
+        return "DoctoralView added";
     }
 
     @DeleteMapping("/deleteDoctoralById")
     @ApiOperation("Delete doctoral")
-    public ResponseEntity<String> deleteDoctoralById(int id) {
+    public String deleteDoctoralById(String id) {
         doctoralService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("DoctoralView deleted");
+        return "DoctoralView deleted";
     }
 }

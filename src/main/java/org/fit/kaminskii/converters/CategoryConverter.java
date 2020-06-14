@@ -1,26 +1,12 @@
 package org.fit.kaminskii.converters;
 
-import org.fit.kaminskii.model.TeacherCategory;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import org.fit.kaminskii.model.Category;
+import org.springframework.core.convert.converter.Converter;
 
-@Converter
-public class CategoryConverter implements AttributeConverter<TeacherCategory, String> {
-
+public class CategoryConverter implements Converter<String, Category> {
     @Override
-    public String convertToDatabaseColumn(TeacherCategory value) {
-        if (value == null) {
-            return null;
-        }
-        return value.getCategory();
-    }
-
-    @Override
-    public TeacherCategory convertToEntityAttribute(String value) {
-        if (value == null) {
-            return null;
-        }
-        return TeacherCategory.findByCategory(value);
+    public Category convert(String source) {
+        return Category.findByCategory(source);
     }
 }

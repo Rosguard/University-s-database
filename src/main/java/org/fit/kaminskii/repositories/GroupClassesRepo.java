@@ -1,13 +1,13 @@
 package org.fit.kaminskii.repositories;
 
 
-import org.fit.kaminskii.domain.FacultyEntity;
 import org.fit.kaminskii.domain.GroupClassesEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.fit.kaminskii.domain.GroupClassesEntityPK;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
-
-public interface GroupClassesRepo extends CrudRepository<GroupClassesEntity, Integer> {
+public interface GroupClassesRepo extends PagingAndSortingRepository<GroupClassesEntity, GroupClassesEntityPK> {
     @Override
-    List<GroupClassesEntity> findAll();
+    Page<GroupClassesEntity> findAll(Pageable pageable);
 }

@@ -1,6 +1,7 @@
 package org.fit.kaminskii.views;
 
 import lombok.Data;
+import org.fit.kaminskii.domain.GroupEntity;
 import org.fit.kaminskii.model.Sex;
 
 import javax.validation.constraints.Min;
@@ -23,7 +24,6 @@ public class StudentView {
     private Sex sex;
     @NotNull
     private Date birthday;
-    @NotNull
     private Integer age;
     @NotNull
     @Min(0)
@@ -31,9 +31,4 @@ public class StudentView {
     @NotNull
     @Min(0)
     private BigDecimal grants;
-
-    public String getSex() {
-        return sex.getSex();
-    }
-
 }

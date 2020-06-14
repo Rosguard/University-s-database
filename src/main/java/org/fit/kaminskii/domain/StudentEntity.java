@@ -1,16 +1,23 @@
 package org.fit.kaminskii.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.fit.kaminskii.converters.SexConverter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.fit.kaminskii.db_converters.SexConverter;
 import org.fit.kaminskii.model.Sex;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collection;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "student", schema = "public", catalog = "postgres")
 public class StudentEntity {
     @Id
@@ -33,8 +40,8 @@ public class StudentEntity {
     @Basic
     @Column(name = "birthday", nullable = true)
     private Date birthday;
-    @Basic
-    @Column(name = "age", nullable = true)
+    @Transient
+//    @Column(name = "age")
     private Integer age;
     @Basic
     @Column(name = "number_of_children", nullable = true)
@@ -42,9 +49,16 @@ public class StudentEntity {
     @Basic
     @Column(name = "grants", nullable = true)
     private BigDecimal grants;
-    @ManyToOne
-    @JoinColumn(name = "student_group", referencedColumnName = "number_of_group", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_group", referencedColumnName = "number_of_group")
     private GroupEntity studentGroup;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentByStudentCode")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "studentByStudentCode")
     private Collection<StudentRecordEntity> studentRecordsByStudentCode;
+
+    @PostLoad
+    void post(){
+        Period period = Period.between(LocalDate.parse(birthday.toString()), LocalDate.now());
+        this.age = period.getYears();
+    }
 }

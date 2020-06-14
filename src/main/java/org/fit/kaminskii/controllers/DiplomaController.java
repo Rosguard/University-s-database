@@ -5,22 +5,17 @@ import io.swagger.annotations.ApiOperation;
 import org.fit.kaminskii.services.DiplomaService;
 import org.fit.kaminskii.views.DiplomaView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @Api
-@Controller
+@RestController
 @RequestMapping("/diplomas")
 public class DiplomaController {
     @Autowired
@@ -29,21 +24,21 @@ public class DiplomaController {
     @GetMapping("/showAll")
     @ApiOperation("Show all diplomas")
     @ResponseBody
-    public List<DiplomaView> showDiplomas() {
-        return diplomaService.showAll();
+    public Page<DiplomaView> showDiplomas(int page, int size) {
+        return diplomaService.showAll(page, size);
     }
 
     @PostMapping("/createDiploma")
     @ApiOperation("Create diploma")
-    public ResponseEntity<String> createDiploma(@Valid @RequestBody DiplomaView diploma) {
+    public String createDiploma(@Valid @RequestBody DiplomaView diploma) {
         diplomaService.create(diploma);
-        return ResponseEntity.status(HttpStatus.CREATED).body("DiplomaView added");
+        return "DiplomaView added";
     }
 
     @DeleteMapping("/deleteDiplomaById")
     @ApiOperation("Delete diploma")
-    public ResponseEntity<String> deleteDiplomaById(int id) {
+    public String deleteDiplomaById(int id) {
         diplomaService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("DiplomaView deleted");
+        return "DiplomaView deleted";
     }
 }

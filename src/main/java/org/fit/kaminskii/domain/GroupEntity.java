@@ -1,12 +1,17 @@
 package org.fit.kaminskii.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "groups", schema = "public", catalog = "postgres")
 public class GroupEntity {
     @Id
@@ -15,14 +20,13 @@ public class GroupEntity {
     @Basic
     @Column(name = "course", nullable = true)
     private Integer course;
-    @Basic
-    @Column(name = "faculty", nullable = true, length = -1)
-    private String faculty;
-    @ManyToOne
-    @JoinColumn(name = "faculty", referencedColumnName = "faculty_name", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty", referencedColumnName = "faculty_name")
     private FacultyEntity facultyByFaculty;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupNumber")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "groupNumber")
     private Collection<GroupClassesEntity> groupClassesByNumberOfGroup;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentGroup")
+    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "studentGroup")
     private Collection<StudentEntity> studentsByNumberOfGroup;
 }
