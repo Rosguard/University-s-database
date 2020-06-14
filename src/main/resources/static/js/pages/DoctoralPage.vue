@@ -98,7 +98,7 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <v-text-field v-model="doctoralName" placeholder="Название кандидатской"></v-text-field>
+                    <v-text-field v-model="doctoralName1" placeholder="Название кандидатской"></v-text-field>
                 </v-col>
                 <v-col>
                     <v-btn @click="deleteDoctoralById" color="secondary">Удалить докторскую</v-btn>
@@ -261,6 +261,7 @@
                 }],
                 dialogAll: false,
                 doctoralName: "",
+                doctoralName1: "",
                 doctoralDate: null,
                 doctoralTheme: "",
                 doctoralFaculty: "",
@@ -290,7 +291,7 @@
                 })
             },
             deleteDoctoralById() {
-                const id = this.doctoralName;
+                const id = this.doctoralName1;
                 this.$resource("/doctorals/deleteDoctoralById").delete({id}).then(result => {
                     alert("Done");
                 })

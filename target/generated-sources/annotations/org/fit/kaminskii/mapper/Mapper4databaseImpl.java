@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-06-14T14:06:02+0700",
+    date = "2020-06-14T15:52:34+0700",
     comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.7 (JetBrains s.r.o.)"
 )
 @Component
@@ -102,6 +102,10 @@ public class Mapper4databaseImpl extends Mapper4database {
             return;
         }
 
+        if ( groupClassesEntity.getGroupClassesEntityPK() == null ) {
+            groupClassesEntity.setGroupClassesEntityPK( new GroupClassesEntityPK() );
+        }
+        groupClassesViewToGroupClassesEntityPK( groupClasses, groupClassesEntity.getGroupClassesEntityPK() );
         if ( groupClasses.getStartDate() != null ) {
             groupClassesEntity.setStartDate( groupClasses.getStartDate() );
         }
@@ -543,6 +547,20 @@ public class Mapper4databaseImpl extends Mapper4database {
         }
 
         return list;
+    }
+
+    protected void groupClassesViewToGroupClassesEntityPK(GroupClassesView groupClassesView, GroupClassesEntityPK mappingTarget) {
+        if ( groupClassesView == null ) {
+            return;
+        }
+
+        mappingTarget.setGroupNumber( groupClassesView.getGroup() );
+        if ( groupClassesView.getLessonType() != null ) {
+            mappingTarget.setLessonType( groupClassesView.getLessonType() );
+        }
+        if ( groupClassesView.getName() != null ) {
+            mappingTarget.setLessonName( groupClassesView.getName() );
+        }
     }
 
     protected void studentRecordViewToStudentRecordEntityPK(StudentRecordView studentRecordView, StudentRecordEntityPK mappingTarget) {

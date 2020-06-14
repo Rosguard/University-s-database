@@ -98,7 +98,7 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <v-text-field v-model="candidateName" placeholder="Название кандидатской"></v-text-field>
+                    <v-text-field v-model="candidateName1" placeholder="Название кандидатской"></v-text-field>
                 </v-col>
                 <v-col>
                     <v-btn @click="deleteCandidateById" color="secondary">Удалить кандидатскую</v-btn>
@@ -261,6 +261,7 @@
                 }],
                 dialogAll: false,
                 candidateName: "",
+                candidateName1: "",
                 candidateDate: null,
                 candidateTheme: "",
                 candidateFaculty: "",
@@ -290,7 +291,7 @@
                 })
             },
             deleteCandidateById() {
-                const id = this.candidateName;
+                const id = this.candidateName1;
                 this.$resource("/candidates/deleteCandidateById").delete({id}).then(result => {
                     alert("Done");
                 })

@@ -104,11 +104,11 @@
                                     label="Дата начала"
                                     hint="MM/DD/YYYY format"
                                     persistent-hint
-                                    @blur="date = parseDate(dateFormatted)"
+                                    @blur="startDate = parseDate(dateFormatted)"
                                     v-on="on"
                             ></v-text-field>
                         </template>
-                        <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker>
+                        <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker>
                     </v-menu>
                 </v-col>
                 <v-col>
@@ -127,11 +127,11 @@
                                     label="Дата завершения"
                                     hint="MM/DD/YYYY format"
                                     persistent-hint
-                                    @blur="date = parseDate(dateFormatted2)"
+                                    @blur="finishDate = parseDate(dateFormatted2)"
                                     v-on="on"
                             ></v-text-field>
                         </template>
-                        <v-date-picker v-model="date" no-title @input="menu2 = false"></v-date-picker>
+                        <v-date-picker v-model="finishDate" no-title @input="menu2 = false"></v-date-picker>
                     </v-menu>
                 </v-col>
             </v-row>
@@ -178,10 +178,10 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <v-text-field v-model="group" placeholder="Номер группы"></v-text-field>
+                    <v-text-field v-model="group1" placeholder="Номер группы"></v-text-field>
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="name" placeholder="Название предмета"></v-text-field>
+                    <v-text-field v-model="name1" placeholder="Название предмета"></v-text-field>
                 </v-col>
                 <v-col>
                     <v-overflow-btn
@@ -211,6 +211,8 @@
                 pageCount: null,
                 picker: new Date().toISOString().substr(0, 10), //Для календаря
                 date: new Date().toISOString().substr(0, 10),
+                startDate: new Date().toISOString().substr(0, 10),
+                finishDate: new Date().toISOString().substr(0, 10),
                 dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
                 dateFormatted2: this.formatDate(new Date().toISOString().substr(0, 10)),
                 menu1: false,
@@ -227,9 +229,10 @@
                     name: "",
                 }],
                 group: null,
+                group1: null,
                 theDepartment: "",
-                startDate: null,
-                finishDate: null,
+                // startDate: null,
+                // finishDate: null,
                 teacherCode: null,
                 lessonType: null,
                 lessonType1: null,
@@ -237,6 +240,7 @@
                 volume: null,
                 dialogAll: false,
                 name: "",
+                name1: "",
                 lessonTypeTest: [
                     {text: "Лекция"},
                     {text: "Семинар"},
@@ -266,8 +270,11 @@
             }
         },
         watch: {
-            date(val) {
-                this.dateFormatted = this.formatDate(this.date)
+            startDate(val) {
+                this.dateFormatted = this.formatDate(this.startDate)
+            },
+            finishDate(val) {
+                this.dateFormatted2 = this.formatDate(this.finishDate)
             },
         },
         methods: {
@@ -297,9 +304,9 @@
                 })
             },
             deleteGroupClassesById() {
-                const groupNumber = this.group;
+                const groupNumber = this.group1;
                 const lessonType = this.lessonType1;
-                const lessonName = this.name;
+                const lessonName = this.name1;
                 this.$resource("/groupClasses/deleteGroupClassesById").delete({
                     "group": groupNumber,
                     "name": lessonName,
@@ -321,11 +328,8 @@
                     volume: this.volume,
                     name: this.name,
                 };
-                console.log(groupClasses);
                 this.$resource("/groupClasses/createGroupClasses").save(groupClasses).then(result => {
-                    result.json().then(data => {
-                        console.log(data);
-                    })
+                    alert("Done");
                 })
             },
         }

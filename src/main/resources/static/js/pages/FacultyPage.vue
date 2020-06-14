@@ -90,7 +90,7 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <v-text-field v-model="facultyName" placeholder="Название факультета"></v-text-field>
+                    <v-text-field v-model="facultyName1" placeholder="Название факультета"></v-text-field>
                 </v-col>
                 <v-col>
                     <v-btn @click="deleteFacultyById" color="secondary">Удалить факультет</v-btn>
@@ -114,6 +114,7 @@
                     name: "",
                 }],
                 facultyName: "",
+                facultyName1: "",
                 dialogAll: false,
                 // createFaculty: null,
                 headers: [
@@ -144,7 +145,7 @@
             },
             createFaculty() {
                 let faculty = {
-                    name: this.facultyName,
+                    name: this.facultyName1,
                 };
                 this.$resource("/faculties/createFaculty").save(faculty).then(result => {
                     result.json().then(data => {

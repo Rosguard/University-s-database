@@ -1108,8 +1108,8 @@
                     </v-col>
                     <v-col>
                         <v-menu
-                                ref="menu2"
-                                v-model="menu2"
+                                ref="menu1"
+                                v-model="menu1"
                                 :close-on-content-click="false"
                                 transition="scale-transition"
                                 offset-y
@@ -1118,15 +1118,15 @@
                         >
                             <template v-slot:activator="{ on }">
                                 <v-text-field
-                                        v-model="dateFormatted"
+                                        v-model="dateFormatted0"
                                         label="Date"
                                         hint="MM/DD/YYYY format"
                                         persistent-hint
-                                        @blur="date = parseDate(dateFormatted)"
+                                        @blur="date0 = parseDate(dateFormatted0)"
                                         v-on="on"
                                 ></v-text-field>
                             </template>
-                            <v-date-picker v-model="date" no-title @input="menu2 = false"></v-date-picker>
+                            <v-date-picker v-model="date0" no-title @input="menu1 = false"></v-date-picker>
                         </v-menu>
                     </v-col>
                     <v-col>
@@ -1184,6 +1184,17 @@
                 !this.$v.studentGroup.required && errors.push('Поле не может быть пустым')
                 !this.$v.studentGroup.minValue && errors.push('Значение не может быть отрицательным')
                 return errors
+            },
+
+        },
+        watch: {
+            date(val) {
+                this.dateFormatted = this.formatDate(this.date);
+                // this.dateFormatted0 = this.formatDate(this.date0);
+            },
+            date0(val) {
+                // this.dateFormatted = this.formatDate(this.date);
+                this.dateFormatted0 = this.formatDate(this.date0);
             },
         },
         data() {
@@ -1279,7 +1290,6 @@
                 pageCount: 0,//Кол-во страниц
                 size: 7, //Размер страницы (кол-во элементов на ней)
                 totalElements: 0,
-                picker: new Date().toISOString().substr(0, 10), //Для календаря
                 date: new Date().toISOString().substr(0, 10),
                 date0: new Date().toISOString().substr(0, 10),
                 dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
@@ -1301,12 +1311,8 @@
                 ],
             };
         },
-        watch: {
-            date(val) {
-                this.dateFormatted = this.formatDate(this.date);
-                // this.dateFormatted0 = this.formatDate(this.date0);
-            },
-        },
+
+
         methods: {
 
             formatDate(date) {
@@ -1398,7 +1404,7 @@
                     group: this.studentGroup0,
                     sex: this.studentSex0,
                     // birthday: this.studentBirthday,
-                    birthday: this.date,
+                    birthday: this.date0,
                     // age: this.studentAge,
                     numberOfChildren: this.studentChildren0,
                     grants: this.studentGrants0,

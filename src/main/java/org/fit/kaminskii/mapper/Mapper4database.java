@@ -33,6 +33,9 @@ public abstract class Mapper4database {
     @Mapping(ignore = true, target = "groupNumber")
     @Mapping(ignore = true, target = "theDepartment")
     @Mapping(ignore = true, target = "teacherCode")
+    @Mapping(source = "group", target = "groupClassesEntityPK.groupNumber")
+    @Mapping(source = "lessonType", target = "groupClassesEntityPK.lessonType")
+    @Mapping(source = "name", target = "groupClassesEntityPK.lessonName")
     public abstract void toGroupClassesEntity(GroupClassesView groupClasses, @MappingTarget GroupClassesEntity groupClassesEntity);
 
     @Mapping(ignore = true, target = "facultyByFaculty")

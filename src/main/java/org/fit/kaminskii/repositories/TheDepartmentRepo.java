@@ -15,15 +15,15 @@ public interface TheDepartmentRepo extends PagingAndSortingRepository<TheDepartm
     @Override
     Page<TheDepartmentEntity> findAll(Pageable pageable);
 
-    @Query("select d from TheDepartmentEntity d join GroupClassesEntity gc on gc.theDepartment = d " +
+    @Query("select distinct d from TheDepartmentEntity d join GroupClassesEntity gc on gc.theDepartment = d " +
             "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group")
     Page<TheDepartmentEntity> findTheDepartmentByGroupNumber(@Param("group") int group, Pageable pageable);
 
-    @Query("select d from TheDepartmentEntity d join GroupClassesEntity gc on gc.theDepartment = d " +
+    @Query("select distinct d from TheDepartmentEntity d join GroupClassesEntity gc on gc.theDepartment = d " +
             "join  GroupEntity g on g = gc.groupNumber where g.course = :course")
     Page<TheDepartmentEntity> findTheDepartmentByCourse(@Param("course") int course, Pageable pageable);
 
-    @Query("select d from TheDepartmentEntity d join GroupClassesEntity gc on gc.theDepartment = d " +
+    @Query("select distinct d from TheDepartmentEntity d join GroupClassesEntity gc on gc.theDepartment = d " +
             "join  GroupEntity g on g = gc.groupNumber where gc.semester = :semester")
     Page<TheDepartmentEntity> findTheDepartmentBySemester(@Param("semester") int semester, Pageable pageable);
 }
