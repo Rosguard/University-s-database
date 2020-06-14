@@ -3,9 +3,9 @@ FROM node:alpine
 EXPOSE 8080
 EXPOSE 8000
 
-WORKDIR /usr/app
+WORKDIR /usr/app/front
 
-COPY . .
+COPY ./ ./
 RUN yarn install
 
 CMD ["yarn", "start"]
