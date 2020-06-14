@@ -1,11 +1,35 @@
 version: "3"
 
+volumes:
+  app-data:
+
+
 services:
+#  db:
+#    container_name: univer-db
+#    image: postgres
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: 123321
+#    volumes:
+#      - "app-data:/var/lib/postgresql/data"
+
+#  backend:
+#    container_name: univer-backend
+#    build:
+#      context: .
+#      dockerfile: docker/back/Dockerfile
+#    restart: always
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://univer-db:5432/postgres
+#    ports:
+#      - 8080:8080
+
   front:
-    tty: true
+    container_name: univer-frontend
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/front/Dockerfile
     restart: always
     ports:
       - 8000:8000

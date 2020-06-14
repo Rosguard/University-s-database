@@ -5,7 +5,7 @@
   "repository": "https://github.com/Rosguard/University-s-database.git",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server --host=0.0.0.0"
   },
   "dependencies": {
     "@mdi/js": "^5.3.45",
