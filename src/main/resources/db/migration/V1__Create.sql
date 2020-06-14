@@ -79,7 +79,6 @@ create table if not exists teacher
 	teacher_category text,
 	sex text,
 	birthday date,
-	age integer,
 	number_of_children integer,
 	salary numeric,
 	doctoral text
@@ -108,7 +107,6 @@ create table if not exists student
 				on update cascade on delete cascade,
 	sex text,
 	birthday date,
-	age integer,
 	number_of_children integer,
 	grants numeric
 );

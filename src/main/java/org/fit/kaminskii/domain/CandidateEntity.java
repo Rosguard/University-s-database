@@ -1,6 +1,8 @@
 package org.fit.kaminskii.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import java.util.Collection;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "candidate", schema = "public", catalog = "postgres")
 public class CandidateEntity {
     @Id

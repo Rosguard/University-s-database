@@ -115,16 +115,17 @@ public class StudentController {
     @PostMapping("/createStudent")
     @ApiOperation("Create student")
     public String createStudent(@Valid @RequestBody StudentView student) {
-        studentService.create(student);
-//        return ResponseEntity.status(HttpStatus.CREATED).body("StudentView added");
-        return "StudentView added";
+        if (studentService.create(student)) {
+            return "Добавлено";
+        }
+        return "Странная дата";
     }
 
     @DeleteMapping("/deleteStudentById")
     @ApiOperation("Delete student")
-    public ResponseEntity<String> deleteStudentById(int id) {
+    public String deleteStudentById(@RequestParam int id) {
         studentService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("StudentView deleted");
+        return "StudentView deleted";
     }
 
     @GetMapping("/studentByGroupNumberAndSubjectAndMark")
@@ -159,6 +160,22 @@ public class StudentController {
                                                                                           @RequestParam String subject,
                                                                                           @RequestParam int semester, int page, int size) {
         return studentService.findStudentByGroupAndTeacherNameAndMarkAndSubjectAndSemester(groupNumber, firstName, secondName, thirdName, subject, semester, page, size);
+//        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/studentByMarkAtSession")
+    @ResponseBody
+    public Page<StudentView> findStudentByMarks(@RequestParam int semester,
+                                                @RequestParam int group,
+                                                @RequestParam int mark, int page, int size) {
+        return studentService.findStudentByMarks(semester, group, mark, page, size);
+//        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    }
+
+    @GetMapping("/studentDiplomaByDepartment")
+    @ResponseBody
+    public Page<StudentView> findStudentAndDiplomaByTheDepartment(@RequestParam String theDepartment, int page, int size) {
+        return studentService.findStudentAndDiplomaByTheDepartment(theDepartment, page, size);
 //        return ResponseEntity.status(HttpStatus.OK).body(departments);
     }
 }

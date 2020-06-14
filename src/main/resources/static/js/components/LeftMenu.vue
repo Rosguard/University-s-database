@@ -34,16 +34,16 @@
                 dialog: false,
                 links: [
                     {icon: "mdi-home", text: "Домой", route: "/"},
-                    {icon: "mdi-office-building", text: "Кафедры", route: "/"},
-                    {icon: "mdi-office-building", text: "Факультеты", route: "/"},
+                    {icon: "mdi-office-building", text: "Кафедры", route: "/theDepartment"},
+                    {icon: "mdi-office-building", text: "Факультеты", route: "/faculties"},
                     {icon: "mdi-account-multiple", text: "Студенты", route: "/students"},
-                    {icon: "mdi-book-open", text: "Зачетка студента", route: "/"},
-                    {icon: "mdi-notebook", text: "Дипломные работы", route: "/"},
+                    {icon: "mdi-book-open", text: "Зачетка студента", route: "/studentRecord"},
+                    {icon: "mdi-notebook", text: "Дипломные работы", route: "/diploma"},
                     {icon: "mdi-teach", text: "Преподаватели", route: "/teachers"},
-                    {icon: "mdi-book", text: "Докторские работы", route: "/"},
-                    {icon: "mdi-book", text: "Кандидатские работы", route: "/"},
-                    {icon: "mdi-account-group", text: "Группы", route: "/"},
-                    {icon: "mdi-account-group", text: "Групповые занятия", route: "/"},
+                    {icon: "mdi-book", text: "Докторские работы", route: "/doctoral"},
+                    {icon: "mdi-book", text: "Кандидатские работы", route: "/candidate"},
+                    {icon: "mdi-account-group", text: "Группы", route: "/groups"},
+                    {icon: "mdi-account-group", text: "Групповые занятия", route: "/groupClasses"},
                 ]
             }
         }

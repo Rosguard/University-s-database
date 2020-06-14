@@ -1,15 +1,15 @@
 package org.fit.kaminskii.db_converters;
 
-import org.fit.kaminskii.model.TeacherCategory;
+import org.fit.kaminskii.model.Category;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class CategoryConverter implements AttributeConverter<TeacherCategory, String> {
+public class CategoryConverter implements AttributeConverter<Category, String> {
 
     @Override
-    public String convertToDatabaseColumn(TeacherCategory value) {
+    public String convertToDatabaseColumn(Category value) {
         if (value == null) {
             return null;
         }
@@ -17,10 +17,10 @@ public class CategoryConverter implements AttributeConverter<TeacherCategory, St
     }
 
     @Override
-    public TeacherCategory convertToEntityAttribute(String value) {
+    public Category convertToEntityAttribute(String value) {
         if (value == null) {
             return null;
         }
-        return TeacherCategory.findByCategory(value);
+        return Category.findByCategory(value);
     }
 }

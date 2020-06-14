@@ -2,19 +2,20 @@ package org.fit.kaminskii.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import org.fit.kaminskii.domain.CandidateEntity;
 import org.fit.kaminskii.domain.DiplomaEntity;
 import org.fit.kaminskii.domain.DoctoralEntity;
 import org.fit.kaminskii.domain.FacultyEntity;
 import org.fit.kaminskii.domain.GroupClassesEntity;
+import org.fit.kaminskii.domain.GroupClassesEntityPK;
 import org.fit.kaminskii.domain.GroupEntity;
 import org.fit.kaminskii.domain.StudentEntity;
 import org.fit.kaminskii.domain.StudentRecordEntity;
+import org.fit.kaminskii.domain.StudentRecordEntityPK;
 import org.fit.kaminskii.domain.TeacherEntity;
 import org.fit.kaminskii.domain.TheDepartmentEntity;
-import org.fit.kaminskii.model.Sex;
-import org.fit.kaminskii.model.TeacherCategory;
+import org.fit.kaminskii.model.LessonType;
 import org.fit.kaminskii.views.CandidateView;
 import org.fit.kaminskii.views.DiplomaView;
 import org.fit.kaminskii.views.DoctoralView;
@@ -29,7 +30,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-06-07T21:20:23+0700",
+    date = "2020-06-14T14:06:02+0700",
     comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.7 (JetBrains s.r.o.)"
 )
 @Component
@@ -161,19 +162,23 @@ public class Mapper4databaseImpl extends Mapper4database {
     }
 
     @Override
-    public void toStudentRecordEntity(StudentRecordView studentrecord, StudentRecordEntity studentRecordEntity) {
-        if ( studentrecord == null ) {
+    public void toStudentRecordEntity(StudentRecordView studentRecord, StudentRecordEntity studentRecordEntity) {
+        if ( studentRecord == null ) {
             return;
         }
 
-        if ( studentrecord.getTypeOfExam() != null ) {
-            studentRecordEntity.setTypeOfExam( studentrecord.getTypeOfExam() );
+        if ( studentRecordEntity.getStudentRecordEntityPK() == null ) {
+            studentRecordEntity.setStudentRecordEntityPK( new StudentRecordEntityPK() );
         }
-        if ( studentrecord.getMark() != null ) {
-            studentRecordEntity.setMark( studentrecord.getMark() );
+        studentRecordViewToStudentRecordEntityPK( studentRecord, studentRecordEntity.getStudentRecordEntityPK() );
+        if ( studentRecord.getTypeOfExam() != null ) {
+            studentRecordEntity.setTypeOfExam( studentRecord.getTypeOfExam() );
         }
-        if ( studentrecord.getDateOfExam() != null ) {
-            studentRecordEntity.setDateOfExam( studentrecord.getDateOfExam() );
+        if ( studentRecord.getMark() != null ) {
+            studentRecordEntity.setMark( studentRecord.getMark() );
+        }
+        if ( studentRecord.getDateOfExam() != null ) {
+            studentRecordEntity.setDateOfExam( studentRecord.getDateOfExam() );
         }
     }
 
@@ -194,10 +199,10 @@ public class Mapper4databaseImpl extends Mapper4database {
             teacherEntity.setThirdName( teacher.getThirdName() );
         }
         if ( teacher.getCategory() != null ) {
-            teacherEntity.setCategory( Enum.valueOf( TeacherCategory.class, teacher.getCategory() ) );
+            teacherEntity.setCategory( teacher.getCategory() );
         }
         if ( teacher.getSex() != null ) {
-            teacherEntity.setSex( Enum.valueOf( Sex.class, teacher.getSex() ) );
+            teacherEntity.setSex( teacher.getSex() );
         }
         if ( teacher.getBirthday() != null ) {
             teacherEntity.setBirthday( teacher.getBirthday() );
@@ -261,6 +266,8 @@ public class Mapper4databaseImpl extends Mapper4database {
 
         DiplomaView diplomaView = new DiplomaView();
 
+        diplomaView.setScientificDirectorCode( diplomaEntityTeacherByScientificDirectorCodeTeacherCode( diplomaEntity ) );
+        diplomaView.setTheDepartment( diplomaEntityTheDepartmentByTheDepartmentName( diplomaEntity ) );
         diplomaView.setStudentCode( diplomaEntity.getStudentCode() );
         diplomaView.setName( diplomaEntity.getName() );
         diplomaView.setTheme( diplomaEntity.getTheme() );
@@ -318,7 +325,11 @@ public class Mapper4databaseImpl extends Mapper4database {
 
         GroupClassesView groupClassesView = new GroupClassesView();
 
+        groupClassesView.setName( groupclassesEntityGroupClassesEntityPKLessonName( groupclassesEntity ) );
+        groupClassesView.setTeacherCode( groupclassesEntityTeacherCodeTeacherCode( groupclassesEntity ) );
+        groupClassesView.setLessonType( groupclassesEntityGroupClassesEntityPKLessonType( groupclassesEntity ) );
         groupClassesView.setTheDepartment( groupclassesEntityTheDepartmentName( groupclassesEntity ) );
+        groupClassesView.setGroup( groupclassesEntityGroupClassesEntityPKGroupNumber( groupclassesEntity ) );
         groupClassesView.setStartDate( groupclassesEntity.getStartDate() );
         groupClassesView.setFinishDate( groupclassesEntity.getFinishDate() );
         groupClassesView.setSemester( groupclassesEntity.getSemester() );
@@ -335,6 +346,7 @@ public class Mapper4databaseImpl extends Mapper4database {
 
         GroupView groupView = new GroupView();
 
+        groupView.setFaculty( groupEntityFacultyByFacultyName( groupEntity ) );
         groupView.setNumberOfGroup( groupEntity.getNumberOfGroup() );
         groupView.setCourse( groupEntity.getCourse() );
 
@@ -378,6 +390,20 @@ public class Mapper4databaseImpl extends Mapper4database {
     }
 
     @Override
+    public List<StudentRecordView> toStudentRecordListView(Iterable<StudentRecordEntity> studentRecordEntity) {
+        if ( studentRecordEntity == null ) {
+            return null;
+        }
+
+        List<StudentRecordView> list = new ArrayList<StudentRecordView>();
+        for ( StudentRecordEntity studentRecordEntity1 : studentRecordEntity ) {
+            list.add( toStudentRecordView( studentRecordEntity1 ) );
+        }
+
+        return list;
+    }
+
+    @Override
     public StudentRecordView toStudentRecordView(StudentRecordEntity studentrecordEntity) {
         if ( studentrecordEntity == null ) {
             return null;
@@ -385,6 +411,9 @@ public class Mapper4databaseImpl extends Mapper4database {
 
         StudentRecordView studentRecordView = new StudentRecordView();
 
+        studentRecordView.setTeacherCode( studentrecordEntityTeacherByTeacherCodeTeacherCode( studentrecordEntity ) );
+        studentRecordView.setStudentCode( studentrecordEntityStudentByStudentCodeStudentCode( studentrecordEntity ) );
+        studentRecordView.setSubject( studentrecordEntityStudentRecordEntityPKSubject( studentrecordEntity ) );
         studentRecordView.setTypeOfExam( studentrecordEntity.getTypeOfExam() );
         studentRecordView.setMark( studentrecordEntity.getMark() );
         studentRecordView.setDateOfExam( studentrecordEntity.getDateOfExam() );
@@ -433,6 +462,62 @@ public class Mapper4databaseImpl extends Mapper4database {
     }
 
     @Override
+    public List<GroupView> toGroupListView(Iterable<GroupEntity> groupEntity) {
+        if ( groupEntity == null ) {
+            return null;
+        }
+
+        List<GroupView> list = new ArrayList<GroupView>();
+        for ( GroupEntity groupEntity1 : groupEntity ) {
+            list.add( toGroupView( groupEntity1 ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<GroupClassesView> toGroupClassesListView(Iterable<GroupClassesEntity> groupClassesEntity) {
+        if ( groupClassesEntity == null ) {
+            return null;
+        }
+
+        List<GroupClassesView> list = new ArrayList<GroupClassesView>();
+        for ( GroupClassesEntity groupClassesEntity1 : groupClassesEntity ) {
+            list.add( toGroupClassesView( groupClassesEntity1 ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<FacultyView> toFacultyListView(Iterable<FacultyEntity> facultyEntity) {
+        if ( facultyEntity == null ) {
+            return null;
+        }
+
+        List<FacultyView> list = new ArrayList<FacultyView>();
+        for ( FacultyEntity facultyEntity1 : facultyEntity ) {
+            list.add( toFacultyView( facultyEntity1 ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<DiplomaView> toDiplomaListView(Iterable<DiplomaEntity> diplomaEntity) {
+        if ( diplomaEntity == null ) {
+            return null;
+        }
+
+        List<DiplomaView> list = new ArrayList<DiplomaView>();
+        for ( DiplomaEntity diplomaEntity1 : diplomaEntity ) {
+            list.add( toDiplomaView( diplomaEntity1 ) );
+        }
+
+        return list;
+    }
+
+    @Override
     public TheDepartmentView toTheDepartmentView(TheDepartmentEntity thedepartmentEntity) {
         if ( thedepartmentEntity == null ) {
             return null;
@@ -460,6 +545,86 @@ public class Mapper4databaseImpl extends Mapper4database {
         return list;
     }
 
+    protected void studentRecordViewToStudentRecordEntityPK(StudentRecordView studentRecordView, StudentRecordEntityPK mappingTarget) {
+        if ( studentRecordView == null ) {
+            return;
+        }
+
+        mappingTarget.setStudentCode( studentRecordView.getStudentCode() );
+        if ( studentRecordView.getSubject() != null ) {
+            mappingTarget.setSubject( studentRecordView.getSubject() );
+        }
+    }
+
+    private Integer diplomaEntityTeacherByScientificDirectorCodeTeacherCode(DiplomaEntity diplomaEntity) {
+        if ( diplomaEntity == null ) {
+            return null;
+        }
+        TeacherEntity teacherByScientificDirectorCode = diplomaEntity.getTeacherByScientificDirectorCode();
+        if ( teacherByScientificDirectorCode == null ) {
+            return null;
+        }
+        int teacherCode = teacherByScientificDirectorCode.getTeacherCode();
+        return teacherCode;
+    }
+
+    private String diplomaEntityTheDepartmentByTheDepartmentName(DiplomaEntity diplomaEntity) {
+        if ( diplomaEntity == null ) {
+            return null;
+        }
+        TheDepartmentEntity theDepartmentByTheDepartment = diplomaEntity.getTheDepartmentByTheDepartment();
+        if ( theDepartmentByTheDepartment == null ) {
+            return null;
+        }
+        String name = theDepartmentByTheDepartment.getName();
+        if ( name == null ) {
+            return null;
+        }
+        return name;
+    }
+
+    private String groupclassesEntityGroupClassesEntityPKLessonName(GroupClassesEntity groupClassesEntity) {
+        if ( groupClassesEntity == null ) {
+            return null;
+        }
+        GroupClassesEntityPK groupClassesEntityPK = groupClassesEntity.getGroupClassesEntityPK();
+        if ( groupClassesEntityPK == null ) {
+            return null;
+        }
+        String lessonName = groupClassesEntityPK.getLessonName();
+        if ( lessonName == null ) {
+            return null;
+        }
+        return lessonName;
+    }
+
+    private Integer groupclassesEntityTeacherCodeTeacherCode(GroupClassesEntity groupClassesEntity) {
+        if ( groupClassesEntity == null ) {
+            return null;
+        }
+        TeacherEntity teacherCode = groupClassesEntity.getTeacherCode();
+        if ( teacherCode == null ) {
+            return null;
+        }
+        int teacherCode1 = teacherCode.getTeacherCode();
+        return teacherCode1;
+    }
+
+    private LessonType groupclassesEntityGroupClassesEntityPKLessonType(GroupClassesEntity groupClassesEntity) {
+        if ( groupClassesEntity == null ) {
+            return null;
+        }
+        GroupClassesEntityPK groupClassesEntityPK = groupClassesEntity.getGroupClassesEntityPK();
+        if ( groupClassesEntityPK == null ) {
+            return null;
+        }
+        LessonType lessonType = groupClassesEntityPK.getLessonType();
+        if ( lessonType == null ) {
+            return null;
+        }
+        return lessonType;
+    }
+
     private String groupclassesEntityTheDepartmentName(GroupClassesEntity groupClassesEntity) {
         if ( groupClassesEntity == null ) {
             return null;
@@ -469,6 +634,33 @@ public class Mapper4databaseImpl extends Mapper4database {
             return null;
         }
         String name = theDepartment.getName();
+        if ( name == null ) {
+            return null;
+        }
+        return name;
+    }
+
+    private int groupclassesEntityGroupClassesEntityPKGroupNumber(GroupClassesEntity groupClassesEntity) {
+        if ( groupClassesEntity == null ) {
+            return 0;
+        }
+        GroupClassesEntityPK groupClassesEntityPK = groupClassesEntity.getGroupClassesEntityPK();
+        if ( groupClassesEntityPK == null ) {
+            return 0;
+        }
+        int groupNumber = groupClassesEntityPK.getGroupNumber();
+        return groupNumber;
+    }
+
+    private String groupEntityFacultyByFacultyName(GroupEntity groupEntity) {
+        if ( groupEntity == null ) {
+            return null;
+        }
+        FacultyEntity facultyByFaculty = groupEntity.getFacultyByFaculty();
+        if ( facultyByFaculty == null ) {
+            return null;
+        }
+        String name = facultyByFaculty.getName();
         if ( name == null ) {
             return null;
         }
@@ -485,6 +677,45 @@ public class Mapper4databaseImpl extends Mapper4database {
         }
         int numberOfGroup = studentGroup.getNumberOfGroup();
         return numberOfGroup;
+    }
+
+    private Integer studentrecordEntityTeacherByTeacherCodeTeacherCode(StudentRecordEntity studentRecordEntity) {
+        if ( studentRecordEntity == null ) {
+            return null;
+        }
+        TeacherEntity teacherByTeacherCode = studentRecordEntity.getTeacherByTeacherCode();
+        if ( teacherByTeacherCode == null ) {
+            return null;
+        }
+        int teacherCode = teacherByTeacherCode.getTeacherCode();
+        return teacherCode;
+    }
+
+    private int studentrecordEntityStudentByStudentCodeStudentCode(StudentRecordEntity studentRecordEntity) {
+        if ( studentRecordEntity == null ) {
+            return 0;
+        }
+        StudentEntity studentByStudentCode = studentRecordEntity.getStudentByStudentCode();
+        if ( studentByStudentCode == null ) {
+            return 0;
+        }
+        int studentCode = studentByStudentCode.getStudentCode();
+        return studentCode;
+    }
+
+    private String studentrecordEntityStudentRecordEntityPKSubject(StudentRecordEntity studentRecordEntity) {
+        if ( studentRecordEntity == null ) {
+            return null;
+        }
+        StudentRecordEntityPK studentRecordEntityPK = studentRecordEntity.getStudentRecordEntityPK();
+        if ( studentRecordEntityPK == null ) {
+            return null;
+        }
+        String subject = studentRecordEntityPK.getSubject();
+        if ( subject == null ) {
+            return null;
+        }
+        return subject;
     }
 
     private String teacherEntityCandidateName(TeacherEntity teacherEntity) {

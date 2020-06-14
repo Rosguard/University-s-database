@@ -10,6 +10,8 @@ import org.fit.kaminskii.model.Sex;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collection;
 
 @Data
@@ -38,8 +40,8 @@ public class StudentEntity {
     @Basic
     @Column(name = "birthday", nullable = true)
     private Date birthday;
-    @Basic
-    @Column(name = "age", nullable = true)
+    @Transient
+//    @Column(name = "age")
     private Integer age;
     @Basic
     @Column(name = "number_of_children", nullable = true)
@@ -48,9 +50,15 @@ public class StudentEntity {
     @Column(name = "grants", nullable = true)
     private BigDecimal grants;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_group", referencedColumnName = "number_of_group", insertable = false, updatable = false)
+    @JoinColumn(name = "student_group", referencedColumnName = "number_of_group")
     private GroupEntity studentGroup;
     @ToString.Exclude
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "studentByStudentCode")
     private Collection<StudentRecordEntity> studentRecordsByStudentCode;
+
+    @PostLoad
+    void post(){
+        Period period = Period.between(LocalDate.parse(birthday.toString()), LocalDate.now());
+        this.age = period.getYears();
+    }
 }

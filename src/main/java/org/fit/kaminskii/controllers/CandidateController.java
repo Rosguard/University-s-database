@@ -5,22 +5,17 @@ import io.swagger.annotations.ApiOperation;
 import org.fit.kaminskii.services.CandidateService;
 import org.fit.kaminskii.views.CandidateView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @Api
-@Controller
+@RestController
 @RequestMapping("/candidates")
 public class CandidateController {
     @Autowired
@@ -29,38 +24,36 @@ public class CandidateController {
     @GetMapping("/showAll")
     @ApiOperation("Show all candidates")
     @ResponseBody
-    public List<CandidateView> showCandidates() {
-        return candidateService.showAll();
+    public Page<CandidateView> showCandidates(int page, int size) {
+        return candidateService.showAll(page, size);
     }
 
     @GetMapping("/candidateByFaculty")
     @ApiOperation("Show candidates by the Faculty")
     @ResponseBody
-    public ResponseEntity<List<CandidateView>> showCandidatesByFaculty(String Faculty) {
-        List<CandidateView> candidates = candidateService.findCandidateByFaculty(Faculty);
-        return ResponseEntity.status(HttpStatus.OK).body(candidates);
+    public Page<CandidateView> showCandidatesByFaculty(String faculty, int page, int size) {
+        return candidateService.findCandidateByFaculty(faculty, page, size);
     }
 
 
     @GetMapping("/candidateByTheDepartment")
     @ApiOperation("Show candidates by the department")
     @ResponseBody
-    public ResponseEntity<List<CandidateView>> showCandidatesByTheDepartment(String department) {
-        List<CandidateView> candidates = candidateService.findCandidateByTheDepartment(department);
-        return ResponseEntity.status(HttpStatus.OK).body(candidates);
+    public Page<CandidateView> showCandidatesByTheDepartment(String theDepartment, int page, int size) {
+        return candidateService.findCandidateByTheDepartment(theDepartment, page, size);
     }
 
     @PostMapping("/createCandidate")
     @ApiOperation("Create candidate")
-    public ResponseEntity<String> createCandidate(@Valid @RequestBody CandidateView candidate) {
+    public String createCandidate(@Valid @RequestBody CandidateView candidate) {
         candidateService.create(candidate);
-        return ResponseEntity.status(HttpStatus.CREATED).body("CandidateView added");
+        return "CandidateView added";
     }
 
     @DeleteMapping("/deleteCandidateById")
     @ApiOperation("Delete candidate")
-    public ResponseEntity<String> deleteCandidateById(String id) {
+    public String deleteCandidateById(String id) {
         candidateService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("CandidateView deleted");
+        return "CandidateView deleted";
     }
 }

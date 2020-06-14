@@ -3,6 +3,8 @@ package org.fit.kaminskii.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.fit.kaminskii.db_converters.ExamTypeConverter;
+import org.fit.kaminskii.model.ExamType;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -18,7 +20,8 @@ public class StudentRecordEntity {
 
     @Basic
     @Column(name = "type_of_exam", nullable = true, length = -1)
-    private String typeOfExam;
+    @Convert(converter = ExamTypeConverter.class)
+    private ExamType typeOfExam;
     @Basic
     @Column(name = "mark", nullable = true, length = -1)
     private Integer mark;
@@ -27,9 +30,9 @@ public class StudentRecordEntity {
     private Date dateOfExam;
     @MapsId("studentCode")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_code", referencedColumnName = "student_code", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "student_code", referencedColumnName = "student_code", nullable = false)
     private StudentEntity studentByStudentCode;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_code", referencedColumnName = "teacher_code", insertable = false, updatable = false)
+    @JoinColumn(name = "teacher_code", referencedColumnName = "teacher_code")
     private TeacherEntity teacherByTeacherCode;
 }

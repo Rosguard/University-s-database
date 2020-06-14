@@ -15,7 +15,6 @@ import java.sql.Date;
 public class GroupClassesEntity {
     @EmbeddedId
     private GroupClassesEntityPK groupClassesEntityPK;
-
     @Basic
     @Column(name = "start_date", nullable = true)
     private Date startDate;
@@ -30,12 +29,12 @@ public class GroupClassesEntity {
     private Integer volume;
     @MapsId("groupNumber")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_number", referencedColumnName = "number_of_group", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "group_number", referencedColumnName = "number_of_group", nullable = false)
     private GroupEntity groupNumber;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "the_department", referencedColumnName = "the_department_name", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "the_department", referencedColumnName = "the_department_name", nullable = false)
     private TheDepartmentEntity theDepartment;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_code", referencedColumnName = "teacher_code", insertable = false, updatable = false)
+    @JoinColumn(name = "teacher_code", referencedColumnName = "teacher_code")
     private TeacherEntity teacherCode;
 }

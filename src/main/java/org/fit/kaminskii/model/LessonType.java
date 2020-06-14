@@ -1,5 +1,8 @@
 package org.fit.kaminskii.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum LessonType {
     LECTURE("Лекция"),
     SEMINAR("Семинар"),
@@ -11,20 +14,17 @@ public enum LessonType {
         this.lessonType = lessonType;
     }
 
+    @JsonValue
     public String getLessonType() {
         return lessonType;
     }
 
+    @JsonCreator
     public static LessonType findByLessonType(String lessonType) {
         for (LessonType one : values()) {
             if (one.lessonType.equals(lessonType))
                 return one;
         }
         throw new IllegalArgumentException(String.format("Error lessonType for %s", lessonType));
-    }
-
-    @Override
-    public String toString() {
-        return lessonType;
     }
 }

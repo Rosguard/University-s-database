@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.fit.kaminskii.domain.FacultyEntity;
 import org.fit.kaminskii.domain.GroupEntity;
 import org.fit.kaminskii.domain.StudentEntity;
+import org.fit.kaminskii.domain.TeacherEntity;
 import org.fit.kaminskii.mapper.Mapper4database;
 import org.fit.kaminskii.model.Sex;
 import org.fit.kaminskii.repositories.FacultyRepo;
 import org.fit.kaminskii.repositories.GroupRepo;
 import org.fit.kaminskii.views.StudentView;
 import org.fit.kaminskii.repositories.StudentRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,16 +23,22 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 
 @Service
 @RequiredArgsConstructor
 public class StudentService {
+    @Autowired
     private final StudentRepo studentRepo;
+    @Autowired
     private final GroupRepo groupRepo;
+    @Autowired
     private final FacultyRepo facultyRepo;
+    @Autowired
     private final Mapper4database mapper4database;
     private final JdbcTemplate jdbcTemplate;
     private SimpleJdbcCall simpleJdbcCall;
@@ -49,18 +57,14 @@ public class StudentService {
     public boolean create(StudentView student) {
         StudentEntity studentEntity = new StudentEntity();
         mapper4database.toStudentEntity(student, studentEntity);
+        if (simpleJdbcCall.execute(Map.of("date", studentEntity.getBirthday())).get("returnValue") == null) {
+            return false;
+        }
         GroupEntity groupEntity = groupRepo.findById(student.getGroup()).orElse(null);
         if (groupEntity == null)
             return false;
         studentEntity.setStudentGroup(groupEntity);
         studentRepo.save(studentEntity);
-//        groupEntity.getStudentsByNumberOfGroup().add(studentEntity);
-//        groupRepo.save(groupEntity);
-//        FacultyEntity facultyEntity = facultyRepo.findById(groupEntity.getFacultyByFaculty().getName()).orElse(null);
-//        if (facultyEntity == null)
-//            return false;
-//        facultyEntity.getGroupsByName().add(groupEntity);
-//        facultyRepo.save(facultyEntity)
         return true;
     }
 
@@ -114,8 +118,10 @@ public class StudentService {
     }
 
     public Page<StudentView> findByAge(int age, int page, int size) {
+        Date begin = Date.valueOf(LocalDate.now().minusYears(age+1).plusDays(1));
+        Date end = Date.valueOf(LocalDate.now().minusYears(age));
         Page<StudentEntity> students =
-                studentRepo.findStudentEntitiesByAge(age,PageRequest.of(page, size));
+                studentRepo.findStudentEntitiesByBirthdayBetween(begin, end, PageRequest.of(page, size));
         return mapper4database.toStudentPage(students);
     }
 
@@ -153,4 +159,13 @@ public class StudentService {
         return mapper4database.toStudentPage(departments);
     }
 
+    public Page<StudentView> findStudentByMarks(int semester, int group, int mark, int page, int size){
+        Page<StudentEntity> students = studentRepo.findStudentByMarks(semester, group, mark,PageRequest.of(page, size));
+        return mapper4database.toStudentPage(students);
+    }
+
+    public Page<StudentView> findStudentAndDiplomaByTheDepartment(String department, int page, int size){
+        Page<StudentEntity> students = studentRepo.findStudentAndDiplomaByTheDepartment(department,PageRequest.of(page, size));
+        return mapper4database.toStudentPage(students);
+    }
 }

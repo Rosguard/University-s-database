@@ -4,7 +4,9 @@ import App from 'pages/App.vue'
 import Vuetify from 'vuetify'
 import router from 'router/router'
 import 'vuetify/dist/vuetify.min.css'
+import Vuelidate from 'vuelidate'
 
+Vue.use(Vuelidate)
 Vue.use(VueResource);
 Vue.use(Vuetify, {iconfont: 'mdiSvg'});
 

@@ -26,7 +26,7 @@ public interface StudentRepo extends PagingAndSortingRepository<StudentEntity, I
 
     Page<StudentEntity> findStudentEntitiesByBirthday(Date birthday, Pageable pageable);
 
-    Page<StudentEntity> findStudentEntitiesByAge(int age, Pageable pageable);
+    Page<StudentEntity> findStudentEntitiesByBirthdayBetween(Date date1, Date date2, Pageable pageable);
 
     Page<StudentEntity> findStudentEntitiesByNumberOfChildren(int numberOfChildren, Pageable pageable);
 
@@ -39,22 +39,30 @@ public interface StudentRepo extends PagingAndSortingRepository<StudentEntity, I
             "join GroupEntity g on g = s.studentGroup where g.numberOfGroup=:groupNumber and sr.studentRecordEntityPK.subject=:subject and sr.mark = :mark")
     Page<StudentEntity> findStudentByGroupNumberAndSubjectAndMark(@Param("groupNumber") int groupNumber, @Param("subject") String subject, @Param("mark") int mark, Pageable pageable);
 
-    @Query("select s from StudentEntity s join StudentRecordEntity sr on sr.studentByStudentCode = s " +
-            "join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.groupClassesEntityPK.name=sr.studentRecordEntityPK.subject " +
+    @Query("select distinct s from StudentEntity s join StudentRecordEntity sr on sr.studentByStudentCode = s " +
+            "join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.groupClassesEntityPK.lessonName=sr.studentRecordEntityPK.subject " +
             "where g.numberOfGroup=:groupNumber and sr.teacherByTeacherCode.teacherCode=:teacherCode " +
             "and sr.studentRecordEntityPK.subject=:subject and sr.mark = :mark and gc.semester = :semester")
     Page<StudentEntity> findStudentByGroupAndTeacherCodeAndMarkAndSubjectAndSemester(@Param("groupNumber") int groupNumber, @Param("teacherCode") int teacherCode, @Param("subject") String subject, @Param("mark") int mark, @Param("semester") int semester, Pageable pageable);
 
-    @Query("select s from StudentEntity s join StudentRecordEntity sr on sr.studentByStudentCode = s " +
-            "join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.groupClassesEntityPK.name=sr.studentRecordEntityPK.subject " +
+    @Query("select distinct s from StudentEntity s join StudentRecordEntity sr on sr.studentByStudentCode = s " +
+            "join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.groupClassesEntityPK.lessonName=sr.studentRecordEntityPK.subject " +
             "join TeacherEntity t on t=sr.teacherByTeacherCode " +
             "where g.numberOfGroup=:groupNumber and t.firstName=:firstName " +
             "and t.secondName=:secondName and t.thirdName=:thirdName " +
             "and sr.studentRecordEntityPK.subject=:subject and gc.semester=:semester")
     Page<StudentEntity> findStudentByGroupAndTeacherNameAndMarkAndSubjectAndSemester(@Param("groupNumber") int groupNumber, @Param("firstName") String firstName, @Param("secondName") String secondName, @Param("thirdName") String thirdName, @Param("subject") String subject, @Param("semester") int semester, Pageable pageable);
 
-    @Query("select s from StudentEntity s join DiplomaEntity d on d.studentCode = s.studentCode " +
-            "join TheDepartmentEntity td on td = d.theDepartmentByTheDepartment where d.theDepartmentByTheDepartment.name=:theDepartment")
+    @Query("select distinct s from StudentEntity s join DiplomaEntity d on d.studentCode = s.studentCode " +
+            "where d.theDepartmentByTheDepartment.name=:theDepartment")
     Page<StudentEntity> findStudentAndDiplomaByTheDepartment(@Param("theDepartment") String theDepartment, Pageable pageable);
+
+    @Query("select s from StudentEntity as s " +
+            "join StudentRecordEntity as sr on sr.studentByStudentCode = s " +
+            "join GroupClassesEntity as gc on sr.studentRecordEntityPK.subject = gc.groupClassesEntityPK.lessonName " +
+            "where gc.semester = :semester and s.studentGroup.numberOfGroup = :group " +
+            "group by s.studentCode " +
+            "having min(sr.mark) >= :mark ")
+    Page<StudentEntity> findStudentByMarks(@Param("semester") int semester, @Param("group") int group, @Param("mark") int mark, Pageable pageable);
 
 }

@@ -1,55 +1,56 @@
 package org.fit.kaminskii.repositories;
 
 import org.fit.kaminskii.domain.TeacherEntity;
+import org.fit.kaminskii.model.Category;
 import org.fit.kaminskii.model.LessonType;
 import org.fit.kaminskii.model.Sex;
-import org.fit.kaminskii.model.TeacherCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
 
-public interface TeacherRepo extends CrudRepository<TeacherEntity, Integer> {
+public interface TeacherRepo extends PagingAndSortingRepository<TeacherEntity, Integer> {
     @Override
-    List<TeacherEntity> findAll();
+    Page<TeacherEntity> findAll(Pageable pageable);
 
-    List<TeacherEntity> findTeacherEntitiesBySecondNameAndFirstNameAndThirdName(String SN, String FN, String TH);
+    Page<TeacherEntity> findTeacherEntitiesBySecondNameAndFirstNameAndThirdName(String SN, String FN, String TH, Pageable pageable);
 
-    List<TeacherEntity> findTeacherEntitiesBySex(Sex sex);
+    Page<TeacherEntity> findTeacherEntitiesBySex(Sex sex, Pageable pageable);
 
-    List<TeacherEntity> findTeacherEntitiesByCategory(TeacherCategory category);
+    Page<TeacherEntity> findTeacherEntitiesByCategory(Category category, Pageable pageable);
 
-    List<TeacherEntity> findTeacherEntitiesByBirthday(Date birthday);
+    Page<TeacherEntity> findTeacherEntitiesByBirthday(Date birthday, Pageable pageable);
 
-    List<TeacherEntity> findTeacherEntitiesByAge(int age);
+    Page<TeacherEntity> findTeacherEntitiesByBirthdayBetween(Date date1, Date date2, Pageable pageable);
 
-    List<TeacherEntity> findTeacherEntitiesByNumberOfChildren(int numberOfChildren);
+    Page<TeacherEntity> findTeacherEntitiesByNumberOfChildren(int numberOfChildren, Pageable pageable);
 
-    List<TeacherEntity> findTeacherEntitiesBySalary(BigDecimal salary);
+    Page<TeacherEntity> findTeacherEntitiesBySalary(BigDecimal salary, Pageable pageable);
 
-    @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
-            "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group and gc.groupClassesEntityPK.name = :lessonName")
-    List<TeacherEntity> findTeacherByLessonNameAndGroupNumber(@Param("lessonName") String lessonName, @Param("group") int group);
+    @Query("select distinct t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
+            "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group and gc.groupClassesEntityPK.lessonName = :lessonName")
+    Page<TeacherEntity> findTeacherByLessonNameAndGroupNumber(@Param("lessonName") String lessonName, @Param("group") int group, Pageable pageable);
 
-    @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
+    @Query("select distinct t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
             "join  GroupEntity g on g = gc.groupNumber join FacultyEntity f on f = g.facultyByFaculty where f.name = :faculty and g.course=:course")
-    List<TeacherEntity> findTeacherByCourseAndFaculty(@Param("course") int course, @Param("faculty") String faculty);
+    Page<TeacherEntity> findTeacherByCourseAndFaculty(@Param("course") int course, @Param("faculty") String faculty, Pageable pageable);
 
-    @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
+    @Query("select distinct t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
             "join  GroupEntity g on g = gc.groupNumber where g.numberOfGroup = :group and gc.groupClassesEntityPK.lessonType = :lessonType")
-    List<TeacherEntity> findTeacherByLessonTypeAndGroupNumber(@Param("lessonType") String lessonType, @Param("group") int group);
+    Page<TeacherEntity> findTeacherByLessonTypeAndGroupNumber(@Param("lessonType") LessonType lessonType, @Param("group") int group, Pageable pageable);
 
-    @Query("select t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
+    @Query("select distinct t from TeacherEntity t join GroupClassesEntity gc on gc.teacherCode = t " +
             "join  GroupEntity g on g = gc.groupNumber join FacultyEntity f on f = g.facultyByFaculty where f.name = :faculty and g.course=:course and gc.semester=:semester")
-    List<TeacherEntity> findTeacherByCourseAndFacultyAndSemester(@Param("course") int course, @Param("faculty") String faculty, @Param("semester") int semester);
+    Page<TeacherEntity> findTeacherByCourseAndFacultyAndSemester(@Param("course") int course, @Param("faculty") String faculty, @Param("semester") int semester, Pageable pageable);
 
-    @Query("select t from TeacherEntity t join StudentRecordEntity sr on sr.teacherByTeacherCode = t " +
-            "join StudentEntity s on s=sr.studentByStudentCode join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.groupClassesEntityPK.name = sr.studentRecordEntityPK.subject " +
+    @Query("select distinct t from TeacherEntity t join StudentRecordEntity sr on sr.teacherByTeacherCode = t " +
+            "join StudentEntity s on s=sr.studentByStudentCode join GroupEntity g on g = s.studentGroup join GroupClassesEntity gc on gc.groupClassesEntityPK.lessonName = sr.studentRecordEntityPK.subject " +
             "where g.numberOfGroup=:groupNumber and sr.studentRecordEntityPK.subject=:subject and gc.semester=:semester")
-    List<TeacherEntity> findTeacherByGroupAndSubjectAndSemester(@Param("groupNumber") int groupNumber, @Param("subject") String subject, @Param("semester") int semester);
+    Page<TeacherEntity> findTeacherByGroupAndSubjectAndSemester(@Param("groupNumber") int groupNumber, @Param("subject") String subject, @Param("semester") int semester, Pageable pageable);
 
 
 }

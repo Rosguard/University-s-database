@@ -5,70 +5,58 @@ import io.swagger.annotations.ApiOperation;
 import org.fit.kaminskii.services.TheDepartmentService;
 import org.fit.kaminskii.views.TheDepartmentView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @Api
-@Controller
+@RestController
 @RequestMapping("/thedepartments")
 public class TheDepartmentController {
-    @Autowired
-    private TheDepartmentService thedepartmentService;
+    private final TheDepartmentService thedepartmentService;
+
+    public TheDepartmentController(TheDepartmentService thedepartmentService) {
+        this.thedepartmentService = thedepartmentService;
+    }
 
     @GetMapping("/showAll")
-    @ApiOperation("Show all tdepartments")
     @ResponseBody
-    public List<TheDepartmentView> showTheDepartments() {
-        return thedepartmentService.showAll();
+    public Page<TheDepartmentView> showTheDepartments(int page, int size) {
+        Page<TheDepartmentView> theDepartmentViews = thedepartmentService.showAll(page, size);
+        return theDepartmentViews;
     }
 
     @PostMapping("/createTheDepartment")
-    @ApiOperation("Create thedepartment")
-    public ResponseEntity<String> create(@Valid @RequestBody TheDepartmentView thedepartment) {
+    public String create(@Valid @RequestBody TheDepartmentView thedepartment) {
         thedepartmentService.create(thedepartment);
-        return ResponseEntity.status(HttpStatus.CREATED).body("TheDepartmentView added");
+        return "TheDepartmentView added";
     }
 
     @DeleteMapping("/deleteTheDepartmentById")
-    @ApiOperation("Delete thedepartment")
-    public ResponseEntity<String> deleteByName(String name) {
+    public String deleteByName(String name) {
         thedepartmentService.deleteByName(name);
-        return ResponseEntity.status(HttpStatus.OK).body("TheDepartmentView deleted");
+        return "TheDepartmentView deleted";
     }
 
 
     @GetMapping("/TheDepartmentByGroupNumber")
-    @ApiOperation("Show departments by the group number")
     @ResponseBody
-    public ResponseEntity<List<TheDepartmentView>> showTheDepartmentByGroupNumber(int groupNumber) {
-        List<TheDepartmentView> departments = thedepartmentService.findTheDepartmentByGroupNumber(groupNumber);
-        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    public Page<TheDepartmentView> showTheDepartmentByGroupNumber(int groupNumber, int page, int size) {
+        return thedepartmentService.findTheDepartmentByGroupNumber(groupNumber, page, size);
     }
 
     @GetMapping("/TheDepartmentByCourse")
-    @ApiOperation("Show departments by the course")
     @ResponseBody
-    public ResponseEntity<List<TheDepartmentView>> showTheDepartmentByCourse(int course) {
-        List<TheDepartmentView> departments = thedepartmentService.findTheDepartmentByCourse(course);
-        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    public Page<TheDepartmentView> showTheDepartmentByCourse(int course, int page, int size) {
+        return thedepartmentService.findTheDepartmentByCourse(course, page, size);
     }
 
     @GetMapping("/TheDepartmentBySemester")
-    @ApiOperation("Show departments by the semester")
     @ResponseBody
-    public ResponseEntity<List<TheDepartmentView>> showTheDepartmentBySemester(int semester) {
-        List<TheDepartmentView> departments = thedepartmentService.findTheDepartmentBySemester(semester);
-        return ResponseEntity.status(HttpStatus.OK).body(departments);
+    public Page<TheDepartmentView> showTheDepartmentBySemester(int semester, int page, int size) {
+        return thedepartmentService.findTheDepartmentBySemester(semester, page, size);
     }
 }
